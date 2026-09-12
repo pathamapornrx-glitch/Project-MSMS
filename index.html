@@ -12,20 +12,11 @@
                 extend: {
                     colors: {
                         brand: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
-                            500: '#22c55e',
-                            600: '#16a34a',
-                            700: '#15803d',
-                            800: '#166534',
-                            900: '#14532d',
-                            dark: '#1e3a29',
+                            50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a',
+                            700: '#15803d', 800: '#166534', 900: '#14532d', dark: '#1e3a29',
                         },
                         accent: {
-                            blue: '#0284c7',
-                            teal: '#0d9488',
-                            amber: '#d97706',
-                            rose: '#e11d48'
+                            blue: '#0284c7', teal: '#0d9488', amber: '#d97706', rose: '#e11d48'
                         }
                     },
                     fontFamily: {
@@ -44,7 +35,6 @@
         body { font-family: 'Sarabun', 'Inter', sans-serif; }
         .flow-node { transition: all 0.3s ease; }
         .flow-node.active { ring: 3px; transform: translateY(-2px); }
-        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -55,7 +45,7 @@
         }
     </style>
 </head>
-<body class="h-full flex flex-col text-slate-800 bg-slate-50">
+<body class="h-full flex flex-col text-slate-800 bg-slate-50" onload="updateHFTypeBadge()">
 
     <!-- Navigation Header -->
     <header class="bg-slate-900 text-white shadow-md sticky top-0 z-40">
@@ -137,7 +127,7 @@
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-slate-600 mb-1">NYHA Functional Class:</label>
+                            <label class="block text-slate-600 mb-1">NYHA Class:</label>
                             <select id="input-nyha" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:outline-none">
                                 <option value="Class I">Class I (No limit)</option>
                                 <option value="Class II" selected>Class II (Mild limit)</option>
@@ -169,7 +159,7 @@
                         </div>
                         <div>
                             <label class="block text-slate-600 mb-1">HF Phenotype:</label>
-                            <div id="badge-hf-type" class="w-full px-2 py-1.5 rounded-lg bg-rose-100 border border-rose-200 text-rose-800 font-bold text-center text-[11px]">
+                            <div id="badge-hf-type" class="w-full px-2 py-1.5 rounded-lg bg-rose-100 border border-rose-200 text-rose-800 font-bold text-center text-[11px] transition-colors">
                                 HFrEF (≤40%)
                             </div>
                         </div>
@@ -201,7 +191,7 @@
                             <label class="block text-slate-600 mb-1">ภาวะบวม/คั่งน้ำ (Congestion):</label>
                             <select id="input-congestion" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:outline-none">
                                 <option value="No">ไม่มี (Euvolemic)</option>
-                                <option value="Yes" selected>มีภาวะน้ำคั่ง (Fluid Overload / Edema)</option>
+                                <option value="Yes" selected>มีภาวะน้ำคั่ง (Fluid Overload)</option>
                             </select>
                         </div>
                     </div>
@@ -209,7 +199,7 @@
 
                 <!-- Clinical Context & Current Meds -->
                 <div class="space-y-3 pt-2">
-                    <h3 class="font-bold text-slate-700 text-xs uppercase tracking-wider border-b pb-1 text-teal-700">3. โรคร่วม & ยาที่ได้รับในปัจจุบัน</h3>
+                    <h3 class="font-bold text-slate-700 text-xs uppercase tracking-wider border-b pb-1 text-teal-700">3. โรคร่วม & ประวัติแพ้ยา</h3>
                     
                     <div class="space-y-1.5">
                         <label class="block text-slate-600">โรคร่วมสำคัญ (Comorbidities):</label>
@@ -224,40 +214,24 @@
                             </label>
                             <label class="flex items-center gap-1.5 p-1 bg-slate-50 border border-slate-200 rounded cursor-pointer hover:bg-slate-100">
                                 <input type="checkbox" id="check-angioedema" class="rounded text-teal-600 focus:ring-teal-500">
-                                <span>เคยแพ้ ACEi (Angioedema)</span>
+                                <span>เคยมีภาวะ Angioedema</span>
                             </label>
                             <label class="flex items-center gap-1.5 p-1 bg-slate-50 border border-slate-200 rounded cursor-pointer hover:bg-slate-100">
                                 <input type="checkbox" id="check-gout" class="rounded text-teal-600 focus:ring-teal-500">
                                 <span>โรคเก๊าท์ (Gout)</span>
                             </label>
                         </div>
-                    </div> <!-- เริ่มส่วนที่เพิ่มใหม่: ประวัติการแพ้ยา -->
-                        <div class="mt-3">
-                            <label class="block text-slate-600 font-semibold mb-1">ประวัติการแพ้ยา (Allergies):</label>
-                            <div class="grid grid-cols-1 gap-2 text-[11px]">
-                                <label class="flex items-center gap-1.5 p-1.5 bg-rose-50 border border-rose-200 rounded-lg cursor-pointer hover:bg-rose-100 transition">
-                                    <input type="checkbox" id="check-allergy-pcn" class="rounded text-rose-600 focus:ring-rose-500 w-4 h-4" onchange="togglePcnAllergyInfo()">
-                                    <span class="text-rose-800 font-medium">แพ้ยากลุ่ม Penicillin (Penicillin Allergy)</span>
-                                </label>
-                            </div>
-                            
-                            <!-- กล่องข้อมูลการแพ้ข้ามกลุ่ม (ซ่อนไว้เริ่มต้น จะแสดงเมื่อติ๊กแพ้ยา) -->
-                            <div id="pcn-allergy-info" class="hidden mt-2 p-2.5 bg-white border border-rose-200 border-l-4 border-l-rose-500 rounded-lg shadow-sm">
-                                <h4 class="font-bold text-rose-700 text-[11px] mb-1 flex items-center gap-1">
-                                    <i class="fa-solid fa-circle-exclamation"></i> ข้อมูลการแพ้ข้ามกลุ่ม (Cross-reactivity)
-                                </h4>
-                                <ul class="text-[10px] text-slate-600 space-y-1 list-disc pl-4">
-                                    <li><strong class="text-slate-700">Cephalosporins:</strong> โอกาสแพ้ข้ามกลุ่ม <span class="text-rose-600 font-semibold">~1-3%</span> (โดยเฉพาะรุ่น 1, 2 หรือตัวที่มี Side chain คล้ายกัน) หากประวัติเดิมแพ้รุนแรง (Anaphylaxis) ควรหลีกเลี่ยง</li>
-                                    <li><strong class="text-slate-700">Carbapenems:</strong> โอกาสแพ้ข้ามกลุ่มต่ำมาก (<span class="text-emerald-600 font-semibold">< 1%</span>) สามารถใช้ได้อย่างระมัดระวัง</li>
-                                    <li><strong class="text-slate-700">Monobactams (Aztreonam):</strong> <span class="text-emerald-600 font-semibold">ไม่มีการแพ้ข้ามกลุ่ม</span> (เว้นแต่แพ้ Ceftazidime) ปลอดภัยในผู้ที่แพ้ Penicillin</li>
-                                </ul>
-                                <p class="text-[9px] text-slate-400 mt-1.5 italic">*อ้างอิง: AAAAI Drug Allergy Guidelines & Pharmacotherapy</p>
-                            </div>
-                        </div>
-                        <!-- จบส่วนที่เพิ่มใหม่ -->
+                    </div> 
 
-                    <div class="space-y-2">
-                        <label class="block text-slate-600 font-semibold">รายการยาเดิมของผู้ป่วย:</label>
+                    <!-- ส่วนที่เพิ่มใหม่: ช่องกรอกประวัติการแพ้ยา (Text Input) -->
+                    <div class="mt-3">
+                        <label class="block text-rose-600 font-semibold mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>ประวัติการแพ้ยา (Drug Allergies):</label>
+                        <input type="text" id="input-allergies" placeholder="เช่น ACEi, Sulfa, Beta-blocker, ARB (เว้นว่างหากไม่มี)" class="w-full px-2.5 py-2 rounded-lg border border-rose-300 bg-rose-50/30 focus:ring-2 focus:ring-rose-500 focus:outline-none text-xs placeholder:text-slate-400">
+                        <p class="text-[9px] text-slate-500 mt-1">* ระบบจะนำข้อมูลแพ้ยาไปประมวลผลข้อห้ามใช้ (Contraindications) ทางเภสัชวิทยา</p>
+                    </div>
+
+                    <div class="space-y-2 pt-2">
+                        <label class="block text-slate-600 font-semibold">รายการยาเดิมของผู้ป่วย (Current Meds):</label>
                         <div class="space-y-1.5 text-[11px]">
                             <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded border border-slate-200">
                                 <span>ARNI / ACEi / ARB:</span>
@@ -305,7 +279,7 @@
                 </div>
 
                 <!-- Submit Button Block -->
-                <div class="pt-2">
+                <div class="pt-2 pb-6">
                     <button type="submit" class="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
                         <i class="fa-solid fa-bolt"></i> ประมวลผลวิเคราะห์ AI-CDSS
                     </button>
@@ -325,7 +299,7 @@
                     <p class="text-xs text-slate-500">อ้างอิงตามแนวทางเวชปฏิบัติ 2021/2023 ESC & 2022 AHA/ACC Heart Failure Guidelines</p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button onclick="triggerGeminiDeepAnalysis()" id="btn-gemini-ai" class="px-3 py-1.5 text-xs font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-lg shadow-sm transition flex items-center gap-1.5">
+                    <button type="button" class="px-3 py-1.5 text-xs font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-lg shadow-sm transition flex items-center gap-1.5">
                         <i class="fa-solid fa-sparkles"></i> AI Deep Reasoning Analysis
                     </button>
                     <button onclick="window.print()" class="px-3 py-1.5 text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition border border-slate-300 flex items-center gap-1 no-print">
@@ -334,42 +308,20 @@
                 </div>
             </div>
 
-            <!-- Gemini AI Live Analysis Banner (Hidden until triggered) -->
-            <div id="gemini-ai-banner" class="hidden bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white p-4 rounded-2xl shadow-lg border border-purple-500/30 transition">
-                <div class="flex items-start justify-between mb-2">
-                    <div class="flex items-center gap-2">
-                        <span class="p-2 bg-purple-500/20 rounded-lg border border-purple-400/30 text-purple-300">
-                            <i class="fa-solid fa-brain text-lg"></i>
-                        </span>
-                        <div>
-                            <h3 class="font-bold text-sm text-purple-200">Gemini Clinical Deep Reasoning Insight</h3>
-                            <p class="text-[11px] text-purple-300">การวิเคราะห์ขั้นสูงโดยใช้ Gemini 3 Flash Model</p>
-                        </div>
-                    </div>
-                    <button onclick="document.getElementById('gemini-ai-banner').classList.add('hidden')" class="text-slate-400 hover:text-white">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                <div id="gemini-output-content" class="text-xs text-purple-100 leading-relaxed bg-purple-950/50 p-3 rounded-xl border border-purple-800/50 font-sans whitespace-pre-line">
-                    กำลังประมวลผลข้อเสนอแนะเชิงลึกผ่าน Gemini API...
-                </div>
-            </div>
-
-            <!-- 5 CDSS OUTPUT SECTIONS (Matching Image Flowchart) -->
+            <!-- 5 CDSS OUTPUT SECTIONS -->
             <div class="grid grid-cols-1 gap-5">
 
-                <!-- 1. Drug Recommendation (first-line, alternatives) -->
+                <!-- 1. Drug Recommendation -->
                 <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 border-l-4 border-l-emerald-600">
                     <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
                         <div class="flex items-center gap-2">
                             <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">1</div>
-                            <h3 class="font-bold text-slate-800 text-sm">Drug Recommendation (First-line & Alternatives)</h3>
+                            <h3 class="font-bold text-slate-800 text-sm">Drug Recommendation (GDMT First-line)</h3>
                         </div>
-                        <span class="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full font-semibold border border-emerald-200">GDMT Fantastic 4</span>
+                        <span class="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full font-semibold border border-emerald-200">Fantastic 4</span>
                     </div>
-
-                    <div id="output-drug-rec" class="space-y-3 text-xs">
-                        <!-- Dynamic JS Injection -->
+                    <div id="output-drug-rec" class="space-y-2 text-xs text-slate-600">
+                        <p class="italic text-slate-400">กรุณากดปุ่ม "ประมวลผลวิเคราะห์ AI-CDSS" เพื่อดูคำแนะนำ</p>
                     </div>
                 </div>
 
@@ -378,28 +330,26 @@
                     <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
                         <div class="flex items-center gap-2">
                             <div class="w-7 h-7 rounded-lg bg-teal-100 text-teal-800 flex items-center justify-center font-bold text-xs">2</div>
-                            <h3 class="font-bold text-slate-800 text-sm">Dose & Route Guidance (แนวทางการปรับขนาดยา & ช่องทางบริหารยา)</h3>
+                            <h3 class="font-bold text-slate-800 text-sm">Dose & Route Guidance</h3>
                         </div>
-                        <span class="text-xs bg-teal-50 text-teal-700 px-2.5 py-0.5 rounded-full font-semibold border border-teal-200">Titration Roadmap</span>
+                        <span class="text-xs bg-teal-50 text-teal-700 px-2.5 py-0.5 rounded-full font-semibold border border-teal-200">Titration</span>
                     </div>
-
-                    <div id="output-dose-guidance" class="space-y-3 text-xs">
-                        <!-- Dynamic JS Injection -->
+                    <div id="output-dose-guidance" class="space-y-2 text-xs text-slate-600">
+                        <p class="italic text-slate-400">รอการประมวลผล...</p>
                     </div>
                 </div>
 
-                <!-- 3. Contraindication Alerts -->
+                <!-- 3. Contraindication Alerts (ระบบวิเคราะห์แพ้ยาจะมาแสดงที่นี่) -->
                 <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 border-l-4 border-l-amber-500">
                     <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
                         <div class="flex items-center gap-2">
                             <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-xs">3</div>
-                            <h3 class="font-bold text-slate-800 text-sm">Contraindication & Safety Alerts (ข้อห้ามใช้ & การเตือนความปลอดภัย)</h3>
+                            <h3 class="font-bold text-slate-800 text-sm">Contraindication & Safety Alerts (ข้อห้ามใช้จากประวัติแพ้ยาและ Lab)</h3>
                         </div>
                         <span class="text-xs bg-amber-50 text-amber-700 px-2.5 py-0.5 rounded-full font-semibold border border-amber-200">Safety Check</span>
                     </div>
-
-                    <div id="output-alerts" class="space-y-2 text-xs">
-                        <!-- Dynamic JS Injection -->
+                    <div id="output-alerts" class="space-y-2 text-xs text-slate-600">
+                        <p class="italic text-slate-400">รอการประมวลผล...</p>
                     </div>
                 </div>
 
@@ -408,13 +358,12 @@
                     <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
                         <div class="flex items-center gap-2">
                             <div class="w-7 h-7 rounded-lg bg-sky-100 text-sky-800 flex items-center justify-center font-bold text-xs">4</div>
-                            <h3 class="font-bold text-slate-800 text-sm">Monitoring Schedule (ตารางนัดหมายติดตามผลและเจาะเลือด)</h3>
+                            <h3 class="font-bold text-slate-800 text-sm">Monitoring Schedule (แผนติดตามผลเลือดและอาการ)</h3>
                         </div>
-                        <span class="text-xs bg-sky-50 text-sky-700 px-2.5 py-0.5 rounded-full font-semibold border border-sky-200">Follow-up Protocol</span>
+                        <span class="text-xs bg-sky-50 text-sky-700 px-2.5 py-0.5 rounded-full font-semibold border border-sky-200">Follow-up</span>
                     </div>
-
-                    <div id="output-monitoring" class="space-y-2 text-xs">
-                        <!-- Dynamic JS Injection -->
+                    <div id="output-monitoring" class="space-y-2 text-xs text-slate-600">
+                        <p class="italic text-slate-400">รอการประมวลผล...</p>
                     </div>
                 </div>
 
@@ -423,20 +372,21 @@
                     <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
                         <div class="flex items-center gap-2">
                             <div class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-800 flex items-center justify-center font-bold text-xs">5</div>
-                            <h3 class="font-bold text-slate-800 text-sm">Evidence-Based Guideline Links & Clinical Trials (หลักฐานทางคลินิก)</h3>
+                            <h3 class="font-bold text-slate-800 text-sm">Evidence-Based Guideline Reference</h3>
                         </div>
-                        <span class="text-xs bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full font-semibold border border-indigo-200">ESC/AHA Standards</span>
+                        <span class="text-xs bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full font-semibold border border-indigo-200">References</span>
                     </div>
-
-                    <div id="output-guidelines" class="space-y-2 text-xs">
-                        <!-- Dynamic JS Injection -->
+                    <div id="output-guidelines" class="space-y-2 text-xs text-slate-600">
+                        <ul class="list-disc pl-4 space-y-1">
+                            <li>2021 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure</li>
+                            <li>2022 AHA/ACC/HFSA Guideline for the Management of Heart Failure</li>
+                            <li>AAAAI Drug Allergy: A 2022 Practice Parameter Update (สำหรับการประเมินการแพ้ยาข้ามกลุ่ม)</li>
+                        </ul>
                     </div>
                 </div>
 
             </div>
-
         </section>
-
     </main>
 
     <!-- Application Footer -->
@@ -451,605 +401,210 @@
     </footer>
 
     <script>
-        // Clinical Presets Configuration
-        const presets = {
-            hfref_standard: {
-                age: 62, gender: "Male", sbp: 118, hr: 82, nyha: "Class II", rhythm: "Sinus Rhythm",
-                lvef: 28, potassium: 4.2, egfr: 68, bnp: 2100, congestion: "Yes",
-                dm: true, ckd: false, angioedema: false, gout: false,
-                ras: "None", bb: "None", mra: "None", sglt2: "None", diuretic: "Furosemide 40mg"
-            },
-            hfref_ckd: {
-                age: 71, gender: "Female", sbp: 106, hr: 68, nyha: "Class III", rhythm: "Sinus Rhythm",
-                lvef: 32, potassium: 5.3, egfr: 32, bnp: 3400, congestion: "No",
-                dm: true, ckd: true, angioedema: false, gout: false,
-                ras: "Enalapril", bb: "Carvedilol", mra: "None", sglt2: "None", diuretic: "Furosemide 40mg"
-            },
-            hfpef: {
-                age: 75, gender: "Female", sbp: 135, hr: 72, nyha: "Class II", rhythm: "Atrial Fibrillation",
-                lvef: 55, potassium: 4.4, egfr: 52, bnp: 850, congestion: "Yes",
-                dm: true, ckd: false, angioedema: false, gout: false,
-                ras: "Losartan", bb: "Bisoprolol", mra: "None", sglt2: "None", diuretic: "Furosemide 40mg"
-            }
-        };
-
-        // On Page Load
-        window.onload = function() {
-            updateHFTypeBadge();
-            runCDSSEngine();
-        };
-
+        // Update LVEF Badge function
         function updateHFTypeBadge() {
-            const lvef = parseFloat(document.getElementById('input-lvef').value) || 0;
+            const lvef = parseInt(document.getElementById('input-lvef').value);
             const badge = document.getElementById('badge-hf-type');
+            
+            if (isNaN(lvef)) return;
+            
             if (lvef <= 40) {
-                badge.className = "w-full px-2 py-1.5 rounded-lg bg-rose-100 border border-rose-200 text-rose-800 font-bold text-center text-[11px]";
+                badge.className = "w-full px-2 py-1.5 rounded-lg bg-rose-100 border border-rose-200 text-rose-800 font-bold text-center text-[11px] transition-colors";
                 badge.innerText = "HFrEF (≤40%)";
-            } else if (lvef >= 41 && lvef <= 49) {
-                badge.className = "w-full px-2 py-1.5 rounded-lg bg-amber-100 border border-amber-200 text-amber-800 font-bold text-center text-[11px]";
+            } else if (lvef > 40 && lvef < 50) {
+                badge.className = "w-full px-2 py-1.5 rounded-lg bg-amber-100 border border-amber-200 text-amber-800 font-bold text-center text-[11px] transition-colors";
                 badge.innerText = "HFmrEF (41-49%)";
             } else {
-                badge.className = "w-full px-2 py-1.5 rounded-lg bg-sky-100 border border-sky-200 text-sky-800 font-bold text-center text-[11px]";
+                badge.className = "w-full px-2 py-1.5 rounded-lg bg-emerald-100 border border-emerald-200 text-emerald-800 font-bold text-center text-[11px] transition-colors";
                 badge.innerText = "HFpEF (≥50%)";
             }
         }
 
-        function loadPreset(key) {
-            const data = presets[key];
-            if (!data) return;
-
-            document.getElementById('input-age').value = data.age;
-            document.getElementById('input-gender').value = data.gender;
-            document.getElementById('input-sbp').value = data.sbp;
-            document.getElementById('input-hr').value = data.hr;
-            document.getElementById('input-nyha').value = data.nyha;
-            document.getElementById('input-rhythm').value = data.rhythm;
-            document.getElementById('input-lvef').value = data.lvef;
-            document.getElementById('input-potassium').value = data.potassium;
-            document.getElementById('input-egfr').value = data.egfr;
-            document.getElementById('input-bnp').value = data.bnp;
-            document.getElementById('input-congestion').value = data.congestion;
-            
-            document.getElementById('check-dm').checked = data.dm;
-            document.getElementById('check-ckd').checked = data.ckd;
-            document.getElementById('check-angioedema').checked = data.angioedema;
-            document.getElementById('check-gout').checked = data.gout;
-
-            document.getElementById('med-ras').value = data.ras;
-            document.getElementById('med-bb').value = data.bb;
-            document.getElementById('med-mra').value = data.mra;
-            document.getElementById('med-sglt2').value = data.sglt2;
-            document.getElementById('med-diuretic').value = data.diuretic;
-
-            updateHFTypeBadge();
-            runCDSSEngine();
-        }
-
+        // Reset Form
         function resetForm() {
             document.getElementById('patient-form').reset();
             updateHFTypeBadge();
-            runCDSSEngine();
+            const defaultText = '<p class="italic text-slate-400">กรุณากดปุ่ม "ประมวลผลวิเคราะห์ AI-CDSS" เพื่อดูคำแนะนำ</p>';
+            document.getElementById('output-drug-rec').innerHTML = defaultText;
+            document.getElementById('output-dose-guidance').innerHTML = defaultText;
+            document.getElementById('output-alerts').innerHTML = defaultText;
+            document.getElementById('output-monitoring').innerHTML = defaultText;
         }
 
-        function getPatientContext() {
-            return {
-                age: parseInt(document.getElementById('input-age').value) || 0,
-                gender: document.getElementById('input-gender').value,
-                sbp: parseInt(document.getElementById('input-sbp').value) || 0,
-                hr: parseInt(document.getElementById('input-hr').value) || 0,
-                nyha: document.getElementById('input-nyha').value,
-                rhythm: document.getElementById('input-rhythm').value,
-                lvef: parseFloat(document.getElementById('input-lvef').value) || 0,
-                k: parseFloat(document.getElementById('input-potassium').value) || 0,
-                egfr: parseFloat(document.getElementById('input-egfr').value) || 0,
-                bnp: parseFloat(document.getElementById('input-bnp').value) || 0,
-                congestion: document.getElementById('input-congestion').value === "Yes",
-                dm: document.getElementById('check-dm').checked,
-                ckd: document.getElementById('check-ckd').checked,
-                hasAngioedema: document.getElementById('check-angioedema').checked,
-                gout: document.getElementById('check-gout').checked,
-                currentMeds: {
-                    ras: document.getElementById('med-ras').value,
-                    bb: document.getElementById('med-bb').value,
-                    mra: document.getElementById('med-mra').value,
-                    sglt2: document.getElementById('med-sglt2').value,
-                    diuretic: document.getElementById('med-diuretic').value,
-                }
-            };
-        }
-
+        // --- Core CDSS Logic Engine ---
         function runCDSSEngine() {
-            const ctx = getPatientContext();
+            // 1. Get Values
+            const lvef = parseInt(document.getElementById('input-lvef').value);
+            const potassium = parseFloat(document.getElementById('input-potassium').value);
+            const egfr = parseInt(document.getElementById('input-egfr').value);
+            const sbp = parseInt(document.getElementById('input-sbp').value);
+            const hr = parseInt(document.getElementById('input-hr').value);
+            const congestion = document.getElementById('input-congestion').value;
+            const allergiesRaw = document.getElementById('input-allergies').value.trim();
+            const allergies = allergiesRaw.toLowerCase();
+            const hasAngioedema = document.getElementById('check-angioedema').checked;
 
-            // Generate Output 1: Drug Recommendation
-            renderDrugRecommendations(ctx);
-
-            // Generate Output 2: Dose & Route Guidance
-            renderDoseGuidance(ctx);
-
-            // Generate Output 3: Contraindication Alerts
-            renderContraindications(ctx);
-
-            // Generate Output 4: Monitoring Schedule
-            renderMonitoringSchedule(ctx);
-
-            // Generate Output 5: Guideline Links
-            renderGuidelineLinks(ctx);
-        }
-
-        function renderDrugRecommendations(ctx) {
-            const container = document.getElementById('output-drug-rec');
-            let html = '';
-
-            if (ctx.lvef <= 40) {
-                // HFrEF Guideline Fantastic Four
-                html += `
-                <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
-                    <span class="font-bold text-emerald-900 block mb-1">🔥 แนะนำยาหลัก 4 กลุ่มสำหรับ HFrEF (The 4 Pillars of GDMT):</span>
-                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
-                        <li class="p-2 bg-white rounded border border-emerald-100 flex items-start gap-2">
-                            <i class="fa-solid fa-pills text-emerald-600 mt-0.5"></i>
-                            <div>
-                                <span class="font-bold text-slate-800">1. ARNI (Sacubitril/Valsartan)</span>
-                                <span class="text-[11px] text-slate-600 block">แนะนำอันดับหนึ่งแทน ACEi/ARB (PARADIGM-HF)</span>
-                                ${ctx.hasAngioedema ? '<span class="text-rose-600 font-bold text-[10px]">⚠️ ห้ามใช้เนื่องจากมีประวัติ Angioedema ให้พิจารณา ARB แทน</span>' : ''}
-                            </div>
-                        </li>
-                        <li class="p-2 bg-white rounded border border-emerald-100 flex items-start gap-2">
-                            <i class="fa-solid fa-heart-pulse text-emerald-600 mt-0.5"></i>
-                            <div>
-                                <span class="font-bold text-slate-800">2. Beta-Blocker (Evidence-based)</span>
-                                <span class="text-[11px] text-slate-600 block">Bisoprolol, Carvedilol, Metoprolol Succinate</span>
-                                ${ctx.hr < 50 ? '<span class="text-amber-600 font-bold text-[10px]">⚠️ ควรระวังเนื่องจาก HR < 50 bpm</span>' : ''}
-                            </div>
-                        </li>
-                        <li class="p-2 bg-white rounded border border-emerald-100 flex items-start gap-2">
-                            <i class="fa-solid fa-capsules text-emerald-600 mt-0.5"></i>
-                            <div>
-                                <span class="font-bold text-slate-800">3. MRA (Spironolactone / Eplerenone)</span>
-                                <span class="text-[11px] text-slate-600 block">ลดการเสียชีวิตและ Rehospitalization</span>
-                                ${ctx.k > 5.0 ? '<span class="text-rose-600 font-bold text-[10px]">❌ ชะลอการเริ่มเนื่องจาก K+ > 5.0 mEq/L</span>' : ''}
-                            </div>
-                        </li>
-                        <li class="p-2 bg-white rounded border border-emerald-100 flex items-start gap-2">
-                            <i class="fa-solid fa-prescription-bottle-medical text-emerald-600 mt-0.5"></i>
-                            <div>
-                                <span class="font-bold text-slate-800">4. SGLT2i (Dapagliflozin / Empagliflozin)</span>
-                                <span class="text-[11px] text-slate-600 block">เริ่มใช้ได้ทันทีโดยไม่ขึ้นกับระดับน้ำตาลในเลือด</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                `;
-
-                // Add-on Alternatives
-                let addOns = [];
-                if (ctx.congestion) {
-                    addOns.push("<b>Loop Diuretic (Furosemide):</b> บรรเทาอาการบวม/คั่งน้ำ ปรับขนาดตามความสมดุลของน้ำในร่างกาย");
-                }
-                if (ctx.hr >= 70 && ctx.rhythm === "Sinus Rhythm" && ctx.sbp >= 90) {
-                    addOns.push("<b>Ivabradine:</b> พิจารณาเสริมหากได้ Beta-blocker ขนาดสูงสุดแล้ว แต่ HR ยังคง ≥ 70 bpm (Sinus rhythm)");
-                }
-                if (ctx.black_patient || ctx.sbp >= 100) {
-                    addOns.push("<b>Hydralazine + Isosorbide Dinitrate:</b> ทางเลือกทดแทนหากไม่สามารถทน ARNI/ACEi/ARB ได้");
-                }
-
-                if (addOns.length > 0) {
-                    html += `
-                    <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200">
-                        <span class="font-semibold text-slate-700">💡 ยาเสริมเฉพาะสภาวะผู้ป่วย (Add-on / Alternatives):</span>
-                        <ul class="list-disc list-inside mt-1 space-y-1 text-slate-600">
-                            ${addOns.map(item => `<li>${item}</li>`).join('')}
-                        </ul>
-                    </div>
-                    `;
-                }
-            } else {
-                // HFmrEF / HFpEF recommendations
-                html += `
-                <div class="p-3 bg-sky-50 rounded-xl border border-sky-200">
-                    <span class="font-bold text-sky-900 block mb-1">ข้อแนะนำยาสำหรับ ${ctx.lvef >= 50 ? 'HFpEF' : 'HFmrEF'}:</span>
-                    <ul class="space-y-2 mt-2">
-                        <li class="p-2 bg-white rounded border border-sky-100 flex items-start gap-2">
-                            <i class="fa-solid fa-check text-sky-600 mt-0.5"></i>
-                            <div>
-                                <span class="font-bold text-slate-800">SGLT2i (Dapagliflozin / Empagliflozin 10mg QD) - Class I Recommendation</span>
-                                <span class="text-[11px] text-slate-600 block">แนะนำเป็นอันดับแรกเพื่อลด HF hospitalization ใน HFpEF/HFmrEF (EMPEROR-Preserved / DELIVER)</span>
-                            </div>
-                        </li>
-                        <li class="p-2 bg-white rounded border border-sky-100 flex items-start gap-2">
-                            <i class="fa-solid fa-check text-slate-500 mt-0.5"></i>
-                            <div>
-                                <span class="font-bold text-slate-800">Loop Diuretics (Furosemide)</span>
-                                <span class="text-[11px] text-slate-600 block">ใช้บรรเทาภาวะน้ำคั่ง (Fluid Overload)</span>
-                            </div>
-                        </li>
-                        <li class="p-2 bg-white rounded border border-sky-100 flex items-start gap-2">
-                            <i class="fa-solid fa-ellipsis text-slate-500 mt-0.5"></i>
-                            <div>
-                                <span class="font-bold text-slate-800">ARNI / MRA / ARB (Class IIb)</span>
-                                <span class="text-[11px] text-slate-600 block">อาจพิจารณาในผู้ป่วยที่มี LVEF อยู่ในช่วงขอบล่าง (41-57%)</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                `;
-            }
-
-            container.innerHTML = html;
-        }
-
-        function renderDoseGuidance(ctx) {
-            const container = document.getElementById('output-dose-guidance');
+            // Variables for generating content
+            let alertsHTML = '';
+            let contraindicatedGroups = [];
             
-            const doseTable = [
-                {
-                    drug: "Sacubitril / Valsartan (ARNI)",
-                    starting: "24/26 mg BID (หรือ 49/51 mg BID)",
-                    target: "97/103 mg BID",
-                    route: "Oral (PO)",
-                    note: "ล้างยา ACEi เดิมอย่างน้อย 36 ชม. ก่อนเริ่ม"
-                },
-                {
-                    drug: "Bisoprolol",
-                    starting: "1.25 mg QD",
-                    target: "10 mg QD",
-                    route: "Oral (PO)",
-                    note: "ค่อยๆ ปรับเพิ่มขนาดยาทุก 2 สัปดาห์"
-                },
-                {
-                    drug: "Carvedilol",
-                    starting: "3.125 mg BID",
-                    target: "25 mg BID (50mg BID หาก wt > 85kg)",
-                    route: "Oral (PO)",
-                    note: "รับประทานพร้อมอาหารเพื่อลดอาการเวียนศีรษะ"
-                },
-                {
-                    drug: "Spironolactone (MRA)",
-                    starting: "12.5 - 25 mg QD",
-                    target: "25 - 50 mg QD",
-                    route: "Oral (PO)",
-                    note: "ตรวจสอบ K+ และ eGFR เสมอก่อนปรับยา"
-                },
-                {
-                    drug: "Dapagliflozin / Empagliflozin",
-                    starting: "10 mg QD",
-                    target: "10 mg QD (Single target dose)",
-                    route: "Oral (PO)",
-                    note: "ไม่ต้องค่อยๆ Titrate สามารถเริ่มที่ Target dose ได้เลย"
+            // ==========================================
+            // MODULE 3: Allergy & Contraindication Logic
+            // ==========================================
+            
+            if (allergies !== "") {
+                alertsHTML += `<div class="p-2.5 bg-rose-50 border border-rose-200 border-l-4 border-l-rose-500 text-rose-800 mb-3 rounded-lg shadow-sm">
+                    <strong class="flex items-center gap-1.5"><i class="fa-solid fa-triangle-exclamation"></i> พบประวัติแพ้ยา (Allergies Input):</strong> 
+                    <span class="ml-5 text-[11px]">${allergiesRaw}</span>
+                </div>`;
+            }
+
+            // Evidence-based processing of typed allergies
+            // 1. ACEi / ARNI Allergy
+            if (allergies.includes('acei') || allergies.includes('enalapril') || allergies.includes('lisinopril') || allergies.includes('captopril') || allergies.includes('ramipril') || hasAngioedema) {
+                alertsHTML += createAlertBox('ACE inhibitors และ ARNI', 'ห้ามใช้ (Contraindication)', 'ประวัติแพ้ยากลุ่ม ACEi (โดยเฉพาะ Angioedema) เสี่ยงต่อการเกิด Cross-reactivity กับยา ARNI อย่างรุนแรง', 'แนะนำพิจารณาใช้ ARB (หากมั่นใจว่าไม่ได้แพ้ ARB ร่วมด้วย) หรือพิจารณา Hydralazine + Isosorbide dinitrate (H-ISDN)');
+                contraindicatedGroups.push('ACEi', 'ARNI');
+            }
+            
+            // 2. ARB Allergy
+            if (allergies.includes('arb') || allergies.includes('losartan') || allergies.includes('valsartan') || allergies.includes('candesartan')) {
+                alertsHTML += createAlertBox('ARBs (Angiotensin II Receptor Blockers) และ ARNI', 'ห้ามใช้ (Contraindication)', 'ผู้ป่วยมีประวัติแพ้ยากลุ่ม ARB โดยตรง ยา ARNI มีส่วนประกอบของ Valsartan จึงห้ามใช้เช่นกัน', 'แนะนำพิจารณาใช้ ACEi (หากไม่เคยมีประวัติแพ้ ACEi) หรือ H-ISDN');
+                contraindicatedGroups.push('ARB', 'ARNI');
+            }
+
+            // 3. Sulfa Allergy (Loop Diuretics warning)
+            if (allergies.includes('sulfa') || allergies.includes('ซัลฟา') || allergies.includes('sulfonamide')) {
+                alertsHTML += createAlertBox('Loop Diuretics (เช่น Furosemide, Torsemide)', 'ควรระวัง (Precaution / Warning)', 'Furosemide มีโครงสร้างเป็น sulfonamide derivative ทางทฤษฎีอาจเกิดการแพ้ข้ามกลุ่มกับยาปฏิชีวนะกลุ่ม Sulfa ได้ (แม้โอกาสเกิดในคลินิกจะต่ำกว่า 1%)', 'หากประวัติเดิมแพ้รุนแรงมาก (Anaphylaxis) ควรหลีกเลี่ยง และพิจารณาใช้ Ethacrynic acid (Non-sulfonamide loop diuretic) แทน');
+            }
+
+            // 4. Beta-blockers
+            if (allergies.includes('beta blocker') || allergies.includes('beta-blocker') || allergies.includes('carvedilol') || allergies.includes('bisoprolol') || allergies.includes('metoprolol')) {
+                alertsHTML += createAlertBox('Beta-blockers ทุกชนิด', 'ห้ามใช้ (Contraindication)', 'มีประวัติแพ้ยากลุ่ม Beta-blockers โดยตรง', 'หากผู้ป่วยมี LVEF ≤ 40%, รอดชีวิตด้วย Sinus rhythm และ HR ≥ 70 bpm ให้พิจารณาใช้ Ivabradine เพื่อควบคุมอัตราการเต้นของหัวใจแทน');
+                contraindicatedGroups.push('Beta-blocker');
+            }
+
+            // 5. MRA (Spironolactone)
+            if (allergies.includes('spironolactone') || allergies.includes('mra') || allergies.includes('aldactone')) {
+                alertsHTML += createAlertBox('Spironolactone (MRA)', 'ห้ามใช้ (Contraindication)', 'มีประวัติแพ้ Spironolactone', 'หากจำเป็นต้องใช้ MRA เพื่อคุม Heart failure อาจพิจารณา Eplerenone (พิจารณา Cross-reactivity อย่างระมัดระวัง) หรือปรึกษาแพทย์ผู้เชี่ยวชาญด้านภูมิแพ้');
+                contraindicatedGroups.push('MRA');
+            }
+
+            // Lab based contraindications
+            if (potassium >= 5.0) {
+                alertsHTML += createAlertBox('MRA (Spironolactone/Eplerenone)', 'เลื่อนการเริ่มยา (Hold/Delay)', `Serum Potassium ปัจจุบันสูง (${potassium} mEq/L)`, 'เสี่ยงต่อ Severe Hyperkalemia แนะนำให้ปรับลด Potassium ก่อนพิจารณาเริ่มยา');
+                contraindicatedGroups.push('MRA_Lab');
+            }
+            if (egfr < 20) {
+                alertsHTML += createAlertBox('SGLT2 inhibitors', 'ไม่ได้ประโยชน์เต็มที่ (Not Initiated)', `eGFR ปัจจุบันต่ำกว่าเกณฑ์ (${egfr} mL/min)`, 'แนวทางไม่แนะนำให้เริ่ม SGLT2i หาก eGFR < 20 mL/min/1.73m2 (Dapagliflozin/Empagliflozin)');
+            }
+
+            if (alertsHTML === '') {
+                alertsHTML = `<div class="p-3 bg-emerald-50 text-emerald-700 rounded-lg border border-emerald-200 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check text-emerald-500 text-lg"></i>
+                    <span>ไม่พบข้อห้ามใช้ (Contraindications) ร้ายแรงจากประวัติแพ้ยาและผลตรวจทางห้องปฏิบัติการ</span>
+                </div>`;
+            }
+            document.getElementById('output-alerts').innerHTML = alertsHTML;
+
+
+            // ==========================================
+            // MODULE 1: Drug Recommendations (Filtered)
+            // ==========================================
+            let recHTML = '<div class="grid grid-cols-1 md:grid-cols-2 gap-3">';
+            
+            // RAS Inhibitor Logic
+            if (!contraindicatedGroups.includes('ARNI') && lvef <= 40) {
+                recHTML += createDrugCard('1. ARNI (Sacubitril/Valsartan)', 'Class I (Level B)', 'แนะนำเป็นตัวเลือกแรก (First-line) แทนที่ ACEi/ARB เพื่อลดอัตราการเสียชีวิต', 'bg-blue-50', 'border-blue-200', 'text-blue-800');
+            } else if (!contraindicatedGroups.includes('ACEi')) {
+                recHTML += createDrugCard('1. ACE inhibitor (e.g. Enalapril)', 'Class I (Level A)', 'ทางเลือกเมื่อไม่สามารถใช้ ARNI ได้', 'bg-slate-50', 'border-slate-200', 'text-slate-800');
+            } else if (!contraindicatedGroups.includes('ARB')) {
+                recHTML += createDrugCard('1. ARB (e.g. Losartan, Valsartan)', 'Class I (Level A)', 'ทางเลือกเมื่อผู้ป่วยทนต่อ ACEi/ARNI ไม่ได้ หรือมีประวัติแพ้ ACEi', 'bg-slate-50', 'border-slate-200', 'text-slate-800');
+            } else {
+                recHTML += createDrugCard('1. H-ISDN (Hydralazine + Isosorbide)', 'Class IIa', 'เนื่องจากผู้ป่วยมีข้อห้ามใช้ ACEi, ARB และ ARNI', 'bg-amber-50', 'border-amber-200', 'text-amber-800');
+            }
+
+            // Beta Blocker Logic
+            if (!contraindicatedGroups.includes('Beta-blocker')) {
+                recHTML += createDrugCard('2. Beta-blockers', 'Class I (Level A)', 'Carvedilol, Bisoprolol, หรือ Metoprolol succinate (เริ่มยาเมื่อ Euvolemic)', 'bg-blue-50', 'border-blue-200', 'text-blue-800');
+            } else {
+                if (hr >= 70) {
+                    recHTML += createDrugCard('2. Ivabradine', 'Class IIa', 'ทดแทน Beta-blocker ที่ผู้ป่วยแพ้ เนื่องจาก HR ปัจจุบัน ≥ 70 bpm (ต้องเป็น Sinus Rhythm)', 'bg-amber-50', 'border-amber-200', 'text-amber-800');
+                } else {
+                    recHTML += createDrugCard('2. Beta-blockers', 'ห้ามใช้ (Contraindicated)', 'งดเว้นตามประวัติแพ้ยาที่ระบุ', 'bg-rose-50', 'border-rose-200', 'text-rose-800');
                 }
-            ];
-
-            let html = `
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse border border-slate-200">
-                    <thead>
-                        <tr class="bg-slate-100 text-slate-700">
-                            <th class="p-2 border border-slate-200 font-bold">ตัวยา (Drug Class)</th>
-                            <th class="p-2 border border-slate-200 font-bold">ขนาดเริ่มต้น (Starting Dose)</th>
-                            <th class="p-2 border border-slate-200 font-bold">ขนาดเป้าหมาย (Target Dose)</th>
-                            <th class="p-2 border border-slate-200 font-bold">วิธีบริหาร (Route)</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-200 text-slate-700">
-            `;
-
-            doseTable.forEach(row => {
-                html += `
-                <tr class="hover:bg-slate-50">
-                    <td class="p-2 border border-slate-200 font-semibold text-slate-800">${row.drug}</td>
-                    <td class="p-2 border border-slate-200 text-teal-700 font-medium">${row.starting}</td>
-                    <td class="p-2 border border-slate-200 font-bold text-emerald-700">${row.target}</td>
-                    <td class="p-2 border border-slate-200 text-slate-600">${row.route}</td>
-                </tr>
-                `;
-            });
-
-            html += `
-                    </tbody>
-                </table>
-            </div>
-            <div class="p-2.5 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 mt-2">
-                <i class="fa-solid fa-clock-rotate-left mr-1"></i> <b>หลักการ Titration Step:</b> แนะนำปรับเพิ่มขนาดยาทุก 1-2 สัปดาห์ จนกว่าจะถึง Target dose หรือขนาดสูงสุดที่ผู้ป่วยทนต่อยาได้ (Max tolerated dose) โดยตรวจติดตามสัญญาณชีพและผลเลือด
-            </div>
-            `;
-
-            container.innerHTML = html;
-        }
-
-        function renderContraindications(ctx) {
-            const container = document.getElementById('output-alerts');
-            let alerts = [];
-
-            // 1. Potassium Alerts
-            if (ctx.k > 5.5) {
-                alerts.push({
-                    level: "danger",
-                    title: "ภาวะโพแทสเซียมในเลือดสูงรุนแรง (K+ > 5.5 mEq/L)",
-                    desc: "ข้อห้ามใช้ (Contraindicated) สำหรับ MRA, ACEi, ARB, ARNI ควรหยุดหรือลดขนาดยาทันที และหาสาเหตุ hyperkalemia"
-                });
-            } else if (ctx.k > 5.0) {
-                alerts.push({
-                    level: "warning",
-                    title: "ภาวะโพแทสเซียมในเลือดสูงปานกลาง (K+ 5.1 - 5.5 mEq/L)",
-                    desc: "ชะลอการเริ่มยา MRA หรือพิจารณาลดขนาดยาครึ่งหนึ่ง และติดตาม K+ อย่างใกล้ชิด"
-                });
             }
 
-            // 2. Renal Alerts
-            if (ctx.egfr < 20) {
-                alerts.push({
-                    level: "danger",
-                    title: "การทำงานของไตถดถอยรุนแรง (eGFR < 20 mL/min/1.73m²)",
-                    desc: "หลีกเลี่ยงการเริ่ม MRA และ SGLT2i. ARNI/ACEi ต้องใช้อย่างระมัดระวังสูงสุดและปรึกษาอายุรแพทย์โรคไต"
-                });
-            } else if (ctx.egfr < 30) {
-                alerts.push({
-                    level: "warning",
-                    title: "ไตบกพร่องระดับปานกลาง-รุนแรง (eGFR 20-30 mL/min)",
-                    desc: "ปรับขนาดเริ่มต้นของ ARNI/ACEi ลงครึ่งหนึ่ง ติดตาม Renal function หลังปรับยา 1-2 สัปดาห์"
-                });
+            // MRA Logic
+            if (!contraindicatedGroups.includes('MRA') && !contraindicatedGroups.includes('MRA_Lab')) {
+                recHTML += createDrugCard('3. MRA (Spironolactone)', 'Class I (Level A)', 'แนะนำให้เริ่มยา (ตรวจเช็ค K+ และ eGFR ตามรอบ)', 'bg-blue-50', 'border-blue-200', 'text-blue-800');
+            } else {
+                 recHTML += createDrugCard('3. MRA (Spironolactone)', 'เลื่อนหรือห้ามใช้', 'ติดข้อห้ามใช้จากประวัติแพ้ยา หรือค่า Lab K+ สูง', 'bg-rose-50', 'border-rose-200', 'text-rose-800');
             }
 
-            // 3. SBP Blood Pressure Alerts
-            if (ctx.sbp < 90) {
-                alerts.push({
-                    level: "danger",
-                    title: "ภาวะความดันโลหิตต่ำ (SBP < 90 mmHg)",
-                    desc: "ชะลอการเริ่มหรือเพิ่มขนาดยา ARNI/ACEi/ARB, Beta-blocker ประเมินว่ามีอาการง่วงซึม มึนศีรษะ หรือสังเกตว่าได้ Diuretic เกินความจำเป็นหรือไม่"
-                });
-            } else if (ctx.sbp < 100) {
-                alerts.push({
-                    level: "warning",
-                    title: "ความดันโลหิตอยู่ในช่วงขอบล่าง (SBP 90-100 mmHg)",
-                    desc: "เริ่ม ARNI หรือ Beta-blocker ด้วยขนาดต่ำสุด (Low starting dose)"
-                });
+            // SGLT2i Logic
+            if (egfr >= 20) {
+                recHTML += createDrugCard('4. SGLT2 inhibitors', 'Class I (Level A)', 'Dapagliflozin หรือ Empagliflozin 10 mg OD', 'bg-blue-50', 'border-blue-200', 'text-blue-800');
+            } else {
+                recHTML += createDrugCard('4. SGLT2 inhibitors', 'ข้อควรระวัง', 'eGFR ต่ำเกินไป ไม่แนะนำให้เริ่มยาใหม่', 'bg-slate-50', 'border-slate-200', 'text-slate-800');
             }
 
-            // 4. HR Alerts
-            if (ctx.hr < 50) {
-                alerts.push({
-                    level: "danger",
-                    title: "อัตราการเต้นหัวใจช้ามาก (HR < 50 bpm)",
-                    desc: "ห้ามเพิ่มขนาด Beta-blocker พิจารณาลดขนาดหรือหยุด Beta-blocker และ Ivabradine"
-                });
-            }
-
-            // 5. Specific History Alerts
-            if (ctx.hasAngioedema) {
-                alerts.push({
-                    level: "danger",
-                    title: "ประวัติแพ้ยากรณี Angioedema จาก ACEi",
-                    desc: "ข้อห้ามใช้เด็ดขาดสำหรับ ACEi และ ARNI! แนะนำให้ใช้ ARB (Candesartan / Valsartan) แทน"
-                });
-            }
-
-            // Washout Warning
-            if (ctx.currentMeds.ras === "Enalapril") {
-                alerts.push({
-                    level: "info",
-                    title: "ข้อระวังการเปลี่ยนจาก ACEi เป็น ARNI",
-                    desc: "ต้องหยุด ACEi (Enalapril) อย่างน้อย 36 ชั่วโมงก่อนเริ่ม Sacubitril/Valsartan เพื่อป้องกันการเกิด Angioedema"
-                });
-            }
-
-            if (alerts.length === 0) {
-                container.innerHTML = `
-                <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-800 flex items-center gap-2">
-                    <i class="fa-solid fa-circle-check text-lg text-emerald-600"></i>
-                    <span>ไม่พบข้อห้ามใช้ร้ายแรง (No Critical Contraindications Detected) ผู้ป่วยสามารถเริ่ม/ปรับยา GDMT ตามเกณฑ์มาตรฐานได้</span>
-                </div>
-                `;
-                return;
-            }
-
-            let html = '';
-            alerts.forEach(a => {
-                let badgeClass = 'bg-amber-50 border-amber-300 text-amber-900';
-                let icon = 'fa-triangle-exclamation text-amber-600';
-                if (a.level === 'danger') {
-                    badgeClass = 'bg-rose-50 border-rose-300 text-rose-900';
-                    icon = 'fa-circle-xmark text-rose-600';
-                } else if (a.level === 'info') {
-                    badgeClass = 'bg-sky-50 border-sky-300 text-sky-900';
-                    icon = 'fa-circle-info text-sky-600';
-                }
-
-                html += `
-                <div class="p-3 rounded-xl border ${badgeClass} flex items-start gap-2.5">
-                    <i class="fa-solid ${icon} text-base mt-0.5"></i>
+            // Diuretics
+            if (congestion === 'Yes') {
+                recHTML += `<div class="col-span-full mt-2 p-2.5 bg-sky-50 border border-sky-200 rounded-lg flex items-start gap-2 text-sky-800">
+                    <i class="fa-solid fa-droplet mt-0.5"></i>
                     <div>
-                        <span class="font-bold block">${a.title}</span>
-                        <span class="text-[11px] opacity-90">${a.desc}</span>
+                        <strong>Diuretics (ยาขับปัสสาวะ):</strong> พบภาวะคั่งน้ำ (Congestion) แนะนำพิจารณาปรับเพิ่ม Loop Diuretics (เช่น Furosemide) จนกว่าผู้ป่วยจะเข้าสู่ภาวะ Euvolemic
                     </div>
-                </div>
-                `;
-            });
+                </div>`;
+            }
 
-            container.innerHTML = html;
-        }
+            recHTML += '</div>';
+            document.getElementById('output-drug-rec').innerHTML = recHTML;
 
-        function renderMonitoringSchedule(ctx) {
-            const container = document.getElementById('output-monitoring');
-
-            let html = `
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                    <div class="font-bold text-slate-800 border-b pb-1 mb-1.5 flex items-center gap-1.5">
-                        <i class="fa-solid fa-calendar-day text-teal-600"></i> 1-2 สัปดาห์แรก (Early Follow-up)
-                    </div>
-                    <ul class="space-y-1 text-[11px] text-slate-600 list-disc list-inside">
-                        <li>เจาะเลือดตรวจ Serum K+ และ Creatinine / eGFR หลังเริ่ม หรือปรับขนาด ARNI / ACEi / MRA</li>
-                        <li>ประเมิน Blood Pressure (SBP/DBP) และ Heart Rate</li>
-                        <li>ประเมินอาการมึนศีรษะ (Orthostatic hypotension)</li>
-                    </ul>
-                </div>
-
-                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                    <div class="font-bold text-slate-800 border-b pb-1 mb-1.5 flex items-center gap-1.5">
-                        <i class="fa-solid fa-scale-balanced text-teal-600"></i> การติดตามประจำวันโดยผู้ป่วย (Self-Monitoring)
-                    </div>
-                    <ul class="space-y-1 text-[11px] text-slate-600 list-disc list-inside">
-                        <li>ชั่งน้ำหนักตอนเช้าทุกวันหลังปัสสาวะ</li>
-                        <li><b>Alert Sign:</b> น้ำหนักเพิ่ม > 1.5 - 2 kg ภายใน 2 วัน หรือ > 2.5 kg ภายใน 1 สัปดาห์ (สัญญานน้ำคั่ง ให้ปรับยาขับปัสสาวะเพิ่ม)</li>
-                        <li>บันทึกค่าความดันและชีพจรที่บ้าน</li>
-                    </ul>
-                </div>
-
-                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                    <div class="font-bold text-slate-800 border-b pb-1 mb-1.5 flex items-center gap-1.5">
-                        <i class="fa-solid fa-heart-pulse text-teal-600"></i> 3-6 เดือน (Long-term Monitoring)
-                    </div>
-                    <ul class="space-y-1 text-[11px] text-slate-600 list-disc list-inside">
-                        <li>ตรวจ Echocardiogram เพื่อติดตาม LVEF และ Cardiac remodeling หลังได้ยา GDMT ครบขนาดเป้าหมาย 3-6 เดือน</li>
-                        <li>ประเมิน NYHA Functional Class</li>
-                        <li>ตรวจ NT-proBNP เพื่อประเมินพยากรณ์โรค</li>
-                    </ul>
-                </div>
-            </div>
+            // ==========================================
+            // MODULE 2 & 4 : Guidance & Monitoring (Simplified Mockup)
+            // ==========================================
+            document.getElementById('output-dose-guidance').innerHTML = `
+                <ul class="list-disc pl-4 space-y-1.5 text-slate-700">
+                    <li><strong>Start Low, Go Slow:</strong> แนะนำให้เริ่มปรับขนาดยา (Titrate) ทีละ 1-2 ชนิด โดยปรับขึ้นทุกๆ 2-4 สัปดาห์ เพื่อให้ถึง Target dose ตาม GDMT guidelines</li>
+                    <li><strong>Blood Pressure:</strong> SBP ปัจจุบัน ${sbp} mmHg (ปลอดภัยสำหรับการเริ่ม/ปรับยา RASi หรือ Beta-blocker)</li>
+                </ul>
             `;
 
-            container.innerHTML = html;
-        }
-
-        function renderGuidelineLinks(ctx) {
-            const container = document.getElementById('output-guidelines');
-
-            let html = `
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px]">
-                <div class="p-2.5 bg-indigo-50/60 rounded-xl border border-indigo-100 space-y-1">
-                    <span class="font-bold text-indigo-900 block"><i class="fa-solid fa-book-bookmark mr-1"></i> ESC Guidelines 2021/2023 for Heart Failure</span>
-                    <p class="text-slate-600">ให้คำแนะนำระดับ Class I (Level A) ในการสั่งใช้ Quadruple Therapy (ARNI/ACEi, Beta-Blocker, MRA, SGLT2i) ทันทีในผู้ป่วย HFrEF เพื่อลดอัตราการเสียชีวิตและการนอนโรงพยาบาล</p>
+            document.getElementById('output-monitoring').innerHTML = `
+                <div class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded">
+                    <i class="fa-solid fa-vial text-teal-600"></i>
+                    <span><strong>นัดตรวจเลือด:</strong> เจาะดูค่า BUN, Cr, eGFR และ Potassium ภายใน 1-2 สัปดาห์ หลังปรับเปลี่ยนยาที่เกี่ยวกับไต (RASi, MRA, SGLT2i)</span>
                 </div>
-
-                <div class="p-2.5 bg-indigo-50/60 rounded-xl border border-indigo-100 space-y-1">
-                    <span class="font-bold text-indigo-900 block"><i class="fa-solid fa-flask mr-1"></i> Landmark Clinical Trials Reference</span>
-                    <ul class="list-disc list-inside text-slate-600 space-y-0.5">
-                        <li><b>PARADIGM-HF:</b> Sacubitril/Valsartan ลด CV Death & HF Hospitalization ลง 20% เมื่อเทียบกับ Enalapril</li>
-                        <li><b>DAPA-HF & EMPEROR-Reduced:</b> SGLT2i ลด Mortality & Morbidity ใน HFrEF อย่างมีนัยสำคัญ</li>
-                        <li><b>EMPEROR-Preserved & DELIVER:</b> SGLT2i เป็นยาแรกที่พิสูจน์ผลลด HF Event ใน HFpEF/HFmrEF</li>
-                    </ul>
-                </div>
-            </div>
             `;
-
-            container.innerHTML = html;
         }
 
-        async function triggerGeminiDeepAnalysis() {
-            const banner = document.getElementById('gemini-ai-banner');
-            const output = document.getElementById('gemini-output-content');
-            banner.classList.remove('hidden');
-            output.innerHTML = `<span class="animate-pulse"><i class="fa-solid fa-spinner fa-spin mr-2"></i> กำลังส่งข้อมูลไปยัง Gemini 3 Flash AI Engine เพื่อวิเคราะห์เชิงลึก...</span>`;
-
-            const ctx = getPatientContext();
-
-            const prompt = `
-            Act as an Expert Heart Failure Cardiologist. Analyze the following patient clinical profile and provide tailored CDSS guidance in Thai language:
-
-            Patient Data:
-            - Age: ${ctx.age}, Gender: ${ctx.gender}
-            - SBP: ${ctx.sbp} mmHg, Heart Rate: ${ctx.hr} bpm, Rhythm: ${ctx.rhythm}
-            - NYHA Class: ${ctx.nyha}
-            - LVEF: ${ctx.lvef}% (HF Phenotype: ${ctx.lvef <= 40 ? 'HFrEF' : ctx.lvef < 50 ? 'HFmrEF' : 'HFpEF'})
-            - Labs: Serum K+: ${ctx.k} mEq/L, eGFR: ${ctx.egfr} mL/min, NT-proBNP: ${ctx.bnp} pg/mL
-            - Fluid Overload/Congestion: ${ctx.congestion ? 'Yes' : 'No'}
-            - Comorbidities: DM2: ${ctx.dm}, CKD: ${ctx.ckd}, Angioedema history: ${ctx.hasAngioedema}, Gout: ${ctx.gout}
-            - Current Meds: RASi: ${ctx.currentMeds.ras}, BB: ${ctx.currentMeds.bb}, MRA: ${ctx.currentMeds.mra}, SGLT2i: ${ctx.currentMeds.sglt2}, Diuretic: ${ctx.currentMeds.diuretic}
-
-            Please provide a structured, clinical-grade summary covering:
-            1. Clinical Assessment & Phenotype Summary
-            2. Priority Medication Optimization Roadmap (GDMT Titration)
-            3. Red-flag Safety Warnings & Patient Specific Risks
-            4. Suggested Follow-up & Lab Check Schedule
-            Keep the response clear, professional, and well-formatted in Thai with bullet points.
-            `;
-
-            const apiKey = ""; // Canvas runtime automatically supplies the API key
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-
-            const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
-                systemInstruction: {
-                    parts: [{ text: "คุณคืออายุรแพทย์หัวใจและหลอดเลือด ผู้เชี่ยวชาญด้านภาวะหัวใจล้มเหลว (Heart Failure Specialist) ตอบด้วยภาษาไทยทางการ แพทย์ถูกต้อง ชัดเจน เข้าใจง่าย" }]
-                }
-            };
-
-            let retries = 0;
-            const maxRetries = 3;
-            let delay = 1000;
-
-            while (retries <= maxRetries) {
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
-
-                    const result = await response.json();
-                    const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-                    if (text) {
-                        output.innerHTML = text.replace(/\n/g, '<br>');
-                    } else {
-                        output.innerHTML = "ไม่พบข้อความตอบกลับจาก Gemini API";
-                    }
-                    break;
-                } catch (err) {
-                    if (retries === maxRetries) {
-                        output.innerHTML = `<span class="text-rose-300"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ไม่สามารถเชื่อมต่อ Gemini AI Engine ได้ในขณะนี้ ระบบยังคงแสดงผลลัพธ์ผ่าน Local Rule Engine ได้ตามปกติ</span>`;
-                    } else {
-                        retries++;
-                        await new Promise(res => setTimeout(res, delay));
-                        delay *= 2;
-                    }
-                }
-            }
-        } // ฟังก์ชันสำหรับเปิด/ปิดกล่องข้อมูลการแพ้ยา Penicillin
-        function togglePcnAllergyInfo() {
-            const isAllergic = document.getElementById('check-allergy-pcn').checked;
-            const infoBox = document.getElementById('pcn-allergy-info');
-            
-            if (isAllergic) {
-                infoBox.classList.remove('hidden');
-                infoBox.classList.add('block');
-            } else {
-                infoBox.classList.add('hidden');
-                infoBox.classList.remove('block');
-            }
-        }
-
-        // --- ส่วนเสริม: ตัวอย่างการนำข้อมูลไปแสดงในช่อง 3. Contraindication Alerts (ระบบของคุณ) ---
-        // (ฟังก์ชันนี้เป็นโครงร่าง ให้คุณนำไปปรับใช้รวมกับฟังก์ชัน runCDSSEngine() เดิมของคุณ)
-        function updateAllergyAlertInCDSS() {
-            const isPcnAllergic = document.getElementById('check-allergy-pcn').checked;
-            const alertsContainer = document.getElementById('output-alerts');
-            
-            // เก็บ Alert เดิมไว้ และเพิ่ม Alert เรื่องยาชา/ยาฆ่าเชื้อ
-            let alertHtml = ''; // ดึงจากโค้ดเก่าของคุณ
-            
-            if (isPcnAllergic) {
-                alertHtml += `
-                    <div class="p-2.5 bg-rose-50 border border-rose-200 rounded-lg flex items-start gap-2">
-                        <i class="fa-solid fa-triangle-exclamation text-rose-500 mt-0.5"></i>
-                        <div>
-                            <span class="font-bold text-rose-700 block">Penicillin Allergy Alert</span>
-                            <span class="text-slate-600 mt-0.5 block">หากผู้ป่วยมีการติดเชื้อร่วมด้วยและจำเป็นต้องใช้ยาปฏิชีวนะ ให้ระวังการใช้ยากลุ่ม <b>Cephalosporins</b> (Cross-reactivity 1-3%) แนะนำให้พิจารณาเลือกใช้ <b>Carbapenems</b> หรือ <b>Aztreonam</b> หากจำเป็น อ้างอิงตามระดับความรุนแรงของการแพ้เดิม</span>
-                        </div>
+        // Helper function for UI elements
+        function createAlertBox(drug, status, reason, recommendation) {
+            return `
+            <div class="bg-white border border-slate-200 rounded-lg p-3 mb-2 shadow-sm relative overflow-hidden">
+                <div class="absolute left-0 top-0 bottom-0 w-1 ${status.includes('ห้ามใช้') ? 'bg-rose-500' : 'bg-amber-500'}"></div>
+                <div class="ml-2">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="font-bold text-slate-800">${drug}</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded font-bold ${status.includes('ห้ามใช้') ? 'bg-rose-100 text-rose-700' : 'bg-amber-100 text-amber-700'}">${status}</span>
                     </div>
-                `;
-            }
-            
-            // alertsContainer.innerHTML += alertHtml; 
-            // นำบรรทัดนี้ไปรวมใน logic การ render ผลลัพธ์ของคุณ
+                    <p class="text-slate-600 mb-1"><strong>สาเหตุ:</strong> ${reason}</p>
+                    <p class="text-teal-700 bg-teal-50 px-2 py-1 rounded border border-teal-100"><i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i><strong>คำแนะนำ:</strong> ${recommendation}</p>
+                </div>
+            </div>`;
         }
-        
-        // อย่าลืมเพิ่มการ reset ค่า checkbox ในฟังก์ชัน resetForm() ของคุณ
-        // document.getElementById('check-allergy-pcn').checked = false;
-        // togglePcnAllergyInfo();
+
+        function createDrugCard(title, cls, desc, bg, border, text) {
+            return `
+            <div class="p-2.5 rounded-lg border ${bg} ${border} ${text}">
+                <div class="flex justify-between items-start mb-1">
+                    <strong class="text-[11px]">${title}</strong>
+                    <span class="text-[9px] px-1.5 py-0.5 bg-white/60 rounded border border-white/50">${cls}</span>
+                </div>
+                <p class="text-[10px] leading-tight opacity-90">${desc}</p>
+            </div>`;
+        }
     </script>
 </body>
 </html>
