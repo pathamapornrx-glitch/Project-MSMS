@@ -56,7 +56,7 @@
                 </div>
                 <div>
                     <h1 class="text-lg font-bold tracking-tight flex items-center gap-2">
-                        HF AI-CDSS <span class="text-xs bg-emerald-500/20 text-emerald-300 font-medium px-2 py-0.5 rounded-full border border-emerald-500/30">v2.6 Regimen Added</span>
+                        HF AI-CDSS <span class="text-xs bg-indigo-500/20 text-indigo-300 font-medium px-2 py-0.5 rounded-full border border-indigo-500/30">v2.7 Evidence Added</span>
                     </h1>
                     <p class="text-xs text-slate-400">ระบบสนับสนุนการตัดสินใจทางคลินิกสำหรับผู้ป่วยภาวะหัวใจล้มเหลว</p>
                 </div>
@@ -263,6 +263,20 @@
                     </div>
                 </div>
 
+                <!-- 5. Clinical Evidence & Guidelines -->
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 border-l-4 border-l-indigo-600">
+                    <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-800 flex items-center justify-center font-bold text-xs">5</div>
+                            <h3 class="font-bold text-slate-800 text-sm">Clinical Evidence & Guidelines</h3>
+                        </div>
+                        <span class="text-xs bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full font-semibold border border-indigo-200">References</span>
+                    </div>
+                    <div id="output-evidence" class="space-y-2 text-xs text-slate-600">
+                        <p class="italic text-slate-400">รอการประมวลผล...</p>
+                    </div>
+                </div>
+
             </div>
         </section>
     </main>
@@ -296,6 +310,7 @@
             document.getElementById('output-dose-guidance').innerHTML = defaultText;
             document.getElementById('output-alerts').innerHTML = defaultText;
             document.getElementById('output-monitoring').innerHTML = defaultText;
+            document.getElementById('output-evidence').innerHTML = defaultText;
         }
 
         // --- Core CDSS Logic Engine ---
@@ -473,6 +488,32 @@
                     <i class="fa-solid fa-vial text-teal-600 text-lg"></i>
                     <div>
                         <strong>นัดตรวจเลือด:</strong> เจาะดูค่า BUN, Cr, eGFR และ Serum Potassium ภายใน 1-2 สัปดาห์ หลังการเริ่มยาหรือปรับลดยาที่เกี่ยวข้องกับไต (RASi, MRA, SGLT2i)
+                    </div>
+                </div>
+            `;
+
+            // ==========================================
+            // MODULE 5: Clinical Evidence & Guidelines
+            // ==========================================
+            document.getElementById('output-evidence').innerHTML = `
+                <div class="space-y-3">
+                    <ul class="list-disc pl-5 space-y-2 text-[11.5px] text-slate-700">
+                        <li>
+                            <strong class="text-indigo-800">AHA/ACC/HFSA 2022:</strong> Guideline for the Management of Heart Failure. 
+                            <em class="text-slate-500">(JACC 2022;79:e263-e421)</em>
+                        </li>
+                        <li>
+                            <strong class="text-indigo-800">ESC 2021 & 2023 Focused Update:</strong> Guidelines for the diagnosis and treatment of acute and chronic heart failure. 
+                            <em class="text-slate-500">(Eur Heart J. 2021;42:3599-3726)</em>
+                        </li>
+                        <li>
+                            <strong class="text-indigo-800">KDIGO 2022:</strong> Clinical Practice Guideline for Diabetes Management in Chronic Kidney Disease 
+                            <span class="text-slate-500">(แนวทางปรับลด/ระวังการใช้ SGLT2i ตามค่า eGFR)</span>
+                        </li>
+                    </ul>
+                    <div class="p-2.5 bg-slate-100 border border-slate-200 rounded-lg text-[10.5px] text-slate-500 flex items-start gap-2 mt-2">
+                        <i class="fa-solid fa-scale-balanced mt-0.5 text-slate-400"></i>
+                        <p><strong>Disclaimer:</strong> ข้อมูลนี้เป็นเพียงระบบสนับสนุนการตัดสินใจทางคลินิก (CDSS) การพิจารณาสั่งจ่ายยาและปรับขนาดยาขึ้นอยู่กับดุลยพินิจของแพทย์ผู้รักษาและบริบททางคลินิกของผู้ป่วยแต่ละราย</p>
                     </div>
                 </div>
             `;
