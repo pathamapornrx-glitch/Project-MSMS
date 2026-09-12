@@ -56,7 +56,7 @@
                 </div>
                 <div>
                     <h1 class="text-lg font-bold tracking-tight flex items-center gap-2">
-                        HF AI-CDSS <span class="text-xs bg-emerald-500/20 text-emerald-300 font-medium px-2 py-0.5 rounded-full border border-emerald-500/30">v2.5 Guidelines</span>
+                        HF AI-CDSS <span class="text-xs bg-emerald-500/20 text-emerald-300 font-medium px-2 py-0.5 rounded-full border border-emerald-500/30">v2.6 Regimen Added</span>
                     </h1>
                     <p class="text-xs text-slate-400">ระบบสนับสนุนการตัดสินใจทางคลินิกสำหรับผู้ป่วยภาวะหัวใจล้มเหลว</p>
                 </div>
@@ -64,11 +64,6 @@
 
             <!-- Header Quick Actions -->
             <div class="flex items-center space-x-3">
-                <div class="hidden md:flex items-center space-x-1 text-xs bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span class="text-slate-300">AI Engine: </span>
-                    <span id="ai-model-tag" class="text-emerald-400 font-medium">Gemini 3 Flash</span>
-                </div>
                 <button onclick="resetForm()" class="px-3 py-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition border border-slate-700">
                     <i class="fa-solid font-bold fa-rotate-right mr-1"></i> ล้างข้อมูล
                 </button>
@@ -93,7 +88,6 @@
                 <!-- Patient Demographics & Vitals -->
                 <div class="space-y-3">
                     <h3 class="font-bold text-slate-700 text-xs uppercase tracking-wider border-b pb-1 text-teal-700">1. ข้อมูลทั่วไป & สัญญาณชีพ (Vitals)</h3>
-                    
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <label class="block text-slate-600 mb-1">อายุ (Age):</label>
@@ -107,7 +101,6 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <label class="block text-slate-600 mb-1">ความดัน Systolic (SBP):</label>
@@ -124,31 +117,11 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-slate-600 mb-1">NYHA Class:</label>
-                            <select id="input-nyha" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:outline-none">
-                                <option value="Class I">Class I (No limit)</option>
-                                <option value="Class II" selected>Class II (Mild limit)</option>
-                                <option value="Class III">Class III (Marked limit)</option>
-                                <option value="Class IV">Class IV (Severe at rest)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-slate-600 mb-1">จังหวะหัวใจ (Rhythm):</label>
-                            <select id="input-rhythm" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:outline-none">
-                                <option value="Sinus Rhythm" selected>Sinus Rhythm</option>
-                                <option value="Atrial Fibrillation">Atrial Fibrillation (AF)</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Echo & Lab Values -->
                 <div class="space-y-3 pt-2">
                     <h3 class="font-bold text-slate-700 text-xs uppercase tracking-wider border-b pb-1 text-teal-700">2. การทำงานของหัวใจ & ผลแล็บ (Labs)</h3>
-                    
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">LVEF (%):</label>
@@ -164,7 +137,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <label class="block text-slate-600 mb-1">Serum Potassium (K+):</label>
@@ -181,12 +153,7 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-slate-600 mb-1">NT-proBNP / BNP:</label>
-                            <input type="number" id="input-bnp" value="1850" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="pg/mL">
-                        </div>
                         <div>
                             <label class="block text-slate-600 mb-1">ภาวะบวม/คั่งน้ำ (Congestion):</label>
                             <select id="input-congestion" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:outline-none">
@@ -200,7 +167,6 @@
                 <!-- Clinical Context & Current Meds -->
                 <div class="space-y-3 pt-2">
                     <h3 class="font-bold text-slate-700 text-xs uppercase tracking-wider border-b pb-1 text-teal-700">3. โรคร่วม & ประวัติแพ้ยา</h3>
-                    
                     <div class="space-y-1.5">
                         <label class="block text-slate-600">โรคร่วมสำคัญ (Comorbidities):</label>
                         <div class="grid grid-cols-2 gap-2 text-[11px]">
@@ -216,65 +182,13 @@
                                 <input type="checkbox" id="check-angioedema" class="rounded text-teal-600 focus:ring-teal-500">
                                 <span>เคยมีภาวะ Angioedema</span>
                             </label>
-                            <label class="flex items-center gap-1.5 p-1 bg-slate-50 border border-slate-200 rounded cursor-pointer hover:bg-slate-100">
-                                <input type="checkbox" id="check-gout" class="rounded text-teal-600 focus:ring-teal-500">
-                                <span>โรคเก๊าท์ (Gout)</span>
-                            </label>
                         </div>
                     </div> 
 
-                    <!-- ส่วนที่เพิ่มใหม่: ช่องกรอกประวัติการแพ้ยา (Text Input) -->
+                    <!-- ช่องกรอกประวัติการแพ้ยา -->
                     <div class="mt-3">
                         <label class="block text-rose-600 font-semibold mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>ประวัติการแพ้ยา (Drug Allergies):</label>
                         <input type="text" id="input-allergies" placeholder="เช่น ACEi, Sulfa, Beta-blocker, ARB (เว้นว่างหากไม่มี)" class="w-full px-2.5 py-2 rounded-lg border border-rose-300 bg-rose-50/30 focus:ring-2 focus:ring-rose-500 focus:outline-none text-xs placeholder:text-slate-400">
-                        <p class="text-[9px] text-slate-500 mt-1">* ระบบจะนำข้อมูลแพ้ยาไปประมวลผลข้อห้ามใช้ (Contraindications) ทางเภสัชวิทยา</p>
-                    </div>
-
-                    <div class="space-y-2 pt-2">
-                        <label class="block text-slate-600 font-semibold">รายการยาเดิมของผู้ป่วย (Current Meds):</label>
-                        <div class="space-y-1.5 text-[11px]">
-                            <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded border border-slate-200">
-                                <span>ARNI / ACEi / ARB:</span>
-                                <select id="med-ras" class="px-2 py-0.5 border border-slate-300 rounded text-[11px]">
-                                    <option value="None">ไม่ได้ยา (None)</option>
-                                    <option value="Enalapril">Enalapril 5mg BID</option>
-                                    <option value="Losartan">Losartan 50mg QD</option>
-                                    <option value="Sacubitril/Valsartan">Sacubitril/Valsartan 24/26 mg BID</option>
-                                </select>
-                            </div>
-                            <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded border border-slate-200">
-                                <span>Beta-Blocker:</span>
-                                <select id="med-bb" class="px-2 py-0.5 border border-slate-300 rounded text-[11px]">
-                                    <option value="None">ไม่ได้ยา (None)</option>
-                                    <option value="Carvedilol">Carvedilol 6.25mg BID</option>
-                                    <option value="Bisoprolol">Bisoprolol 2.5mg QD</option>
-                                    <option value="Metoprolol Succinate">Metoprolol Succ. 25mg QD</option>
-                                </select>
-                            </div>
-                            <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded border border-slate-200">
-                                <span>MRA:</span>
-                                <select id="med-mra" class="px-2 py-0.5 border border-slate-300 rounded text-[11px]">
-                                    <option value="None">ไม่ได้ยา (None)</option>
-                                    <option value="Spironolactone">Spironolactone 25mg QD</option>
-                                </select>
-                            </div>
-                            <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded border border-slate-200">
-                                <span>SGLT2 inhibitor:</span>
-                                <select id="med-sglt2" class="px-2 py-0.5 border border-slate-300 rounded text-[11px]">
-                                    <option value="None">ไม่ได้ยา (None)</option>
-                                    <option value="Dapagliflozin">Dapagliflozin 10mg QD</option>
-                                    <option value="Empagliflozin">Empagliflozin 10mg QD</option>
-                                </select>
-                            </div>
-                            <div class="flex items-center justify-between p-1.5 bg-slate-50 rounded border border-slate-200">
-                                <span>Loop Diuretic:</span>
-                                <select id="med-diuretic" class="px-2 py-0.5 border border-slate-300 rounded text-[11px]">
-                                    <option value="None">ไม่ได้ยา (None)</option>
-                                    <option value="Furosemide 40mg">Furosemide 40mg QD</option>
-                                    <option value="Furosemide 80mg">Furosemide 80mg QD</option>
-                                </select>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -289,24 +203,6 @@
 
         <!-- RIGHT COLUMN: AI-CDSS Results & Recommendations (8/12 width) -->
         <section class="lg:col-span-8 space-y-6">
-
-            <!-- CDSS Output Tabs Header -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap items-center justify-between gap-3">
-                <div>
-                    <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fa-solid fa-square-poll-vertical text-emerald-600"></i> ผลการคำนวณและข้อเสนอแนะทางคลินิก (CDSS Outputs)
-                    </h2>
-                    <p class="text-xs text-slate-500">อ้างอิงตามแนวทางเวชปฏิบัติ 2021/2023 ESC & 2022 AHA/ACC Heart Failure Guidelines</p>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button type="button" class="px-3 py-1.5 text-xs font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-lg shadow-sm transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-sparkles"></i> AI Deep Reasoning Analysis
-                    </button>
-                    <button onclick="window.print()" class="px-3 py-1.5 text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition border border-slate-300 flex items-center gap-1 no-print">
-                        <i class="fa-solid fa-print"></i> พิมพ์รายงาน
-                    </button>
-                </div>
-            </div>
 
             <!-- 5 CDSS OUTPUT SECTIONS -->
             <div class="grid grid-cols-1 gap-5">
@@ -325,26 +221,26 @@
                     </div>
                 </div>
 
-                <!-- 2. Dose & Route Guidance -->
+                <!-- 2. Detailed Dose & Route Guidance -->
                 <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 border-l-4 border-l-teal-600">
                     <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
                         <div class="flex items-center gap-2">
                             <div class="w-7 h-7 rounded-lg bg-teal-100 text-teal-800 flex items-center justify-center font-bold text-xs">2</div>
-                            <h3 class="font-bold text-slate-800 text-sm">Dose & Route Guidance</h3>
+                            <h3 class="font-bold text-slate-800 text-sm">Dose Titration & Regimen Guidance</h3>
                         </div>
-                        <span class="text-xs bg-teal-50 text-teal-700 px-2.5 py-0.5 rounded-full font-semibold border border-teal-200">Titration</span>
+                        <span class="text-xs bg-teal-50 text-teal-700 px-2.5 py-0.5 rounded-full font-semibold border border-teal-200">Dosage Details</span>
                     </div>
-                    <div id="output-dose-guidance" class="space-y-2 text-xs text-slate-600">
+                    <div id="output-dose-guidance" class="text-xs text-slate-600">
                         <p class="italic text-slate-400">รอการประมวลผล...</p>
                     </div>
                 </div>
 
-                <!-- 3. Contraindication Alerts (ระบบวิเคราะห์แพ้ยาจะมาแสดงที่นี่) -->
+                <!-- 3. Contraindication Alerts -->
                 <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 border-l-4 border-l-amber-500">
                     <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
                         <div class="flex items-center gap-2">
                             <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-xs">3</div>
-                            <h3 class="font-bold text-slate-800 text-sm">Contraindication & Safety Alerts (ข้อห้ามใช้จากประวัติแพ้ยาและ Lab)</h3>
+                            <h3 class="font-bold text-slate-800 text-sm">Contraindication & Safety Alerts</h3>
                         </div>
                         <span class="text-xs bg-amber-50 text-amber-700 px-2.5 py-0.5 rounded-full font-semibold border border-amber-200">Safety Check</span>
                     </div>
@@ -358,7 +254,7 @@
                     <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
                         <div class="flex items-center gap-2">
                             <div class="w-7 h-7 rounded-lg bg-sky-100 text-sky-800 flex items-center justify-center font-bold text-xs">4</div>
-                            <h3 class="font-bold text-slate-800 text-sm">Monitoring Schedule (แผนติดตามผลเลือดและอาการ)</h3>
+                            <h3 class="font-bold text-slate-800 text-sm">Monitoring Schedule</h3>
                         </div>
                         <span class="text-xs bg-sky-50 text-sky-700 px-2.5 py-0.5 rounded-full font-semibold border border-sky-200">Follow-up</span>
                     </div>
@@ -367,38 +263,9 @@
                     </div>
                 </div>
 
-                <!-- 5. Evidence-Based Guideline Links -->
-                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 border-l-4 border-l-indigo-600">
-                    <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
-                        <div class="flex items-center gap-2">
-                            <div class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-800 flex items-center justify-center font-bold text-xs">5</div>
-                            <h3 class="font-bold text-slate-800 text-sm">Evidence-Based Guideline Reference</h3>
-                        </div>
-                        <span class="text-xs bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full font-semibold border border-indigo-200">References</span>
-                    </div>
-                    <div id="output-guidelines" class="space-y-2 text-xs text-slate-600">
-                        <ul class="list-disc pl-4 space-y-1">
-                            <li>2021 ESC Guidelines for the diagnosis and treatment of acute and chronic heart failure</li>
-                            <li>2022 AHA/ACC/HFSA Guideline for the Management of Heart Failure</li>
-                            <li>AAAAI Drug Allergy: A 2022 Practice Parameter Update (สำหรับการประเมินการแพ้ยาข้ามกลุ่ม)</li>
-                        </ul>
-                    </div>
-                </div>
-
             </div>
         </section>
     </main>
-
-    <!-- Application Footer -->
-    <footer class="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800 mt-8 no-print">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
-            <p class="font-medium text-slate-300">AI-CDSS Heart Failure Management System &copy; 2026</p>
-            <p class="text-[11px] text-slate-500 max-w-3xl mx-auto">
-                ข้อเสนอแนะจากระบบนี้เป็นเพียงเครื่องมือสนับสนุนการตัดสินใจทางคลินิก (Clinical Decision Support) 
-                การตัดสินใจสั่งใช้ยาสุดท้ายขึ้นอยู่กับดุลยพินิจของแพทย์ผู้ดูแลโดยพิจารณาจากสภาวะทางคลินิกของผู้ป่วยเป็นสำคัญ
-            </p>
-        </div>
-    </footer>
 
     <script>
         // Update LVEF Badge function
@@ -433,7 +300,6 @@
 
         // --- Core CDSS Logic Engine ---
         function runCDSSEngine() {
-            // 1. Get Values
             const lvef = parseInt(document.getElementById('input-lvef').value);
             const potassium = parseFloat(document.getElementById('input-potassium').value);
             const egfr = parseInt(document.getElementById('input-egfr').value);
@@ -444,145 +310,177 @@
             const allergies = allergiesRaw.toLowerCase();
             const hasAngioedema = document.getElementById('check-angioedema').checked;
 
-            // Variables for generating content
             let alertsHTML = '';
             let contraindicatedGroups = [];
             
             // ==========================================
             // MODULE 3: Allergy & Contraindication Logic
             // ==========================================
-            
             if (allergies !== "") {
                 alertsHTML += `<div class="p-2.5 bg-rose-50 border border-rose-200 border-l-4 border-l-rose-500 text-rose-800 mb-3 rounded-lg shadow-sm">
-                    <strong class="flex items-center gap-1.5"><i class="fa-solid fa-triangle-exclamation"></i> พบประวัติแพ้ยา (Allergies Input):</strong> 
+                    <strong class="flex items-center gap-1.5"><i class="fa-solid fa-triangle-exclamation"></i> พบประวัติแพ้ยา:</strong> 
                     <span class="ml-5 text-[11px]">${allergiesRaw}</span>
                 </div>`;
             }
 
-            // Evidence-based processing of typed allergies
-            // 1. ACEi / ARNI Allergy
-            if (allergies.includes('acei') || allergies.includes('enalapril') || allergies.includes('lisinopril') || allergies.includes('captopril') || allergies.includes('ramipril') || hasAngioedema) {
-                alertsHTML += createAlertBox('ACE inhibitors และ ARNI', 'ห้ามใช้ (Contraindication)', 'ประวัติแพ้ยากลุ่ม ACEi (โดยเฉพาะ Angioedema) เสี่ยงต่อการเกิด Cross-reactivity กับยา ARNI อย่างรุนแรง', 'แนะนำพิจารณาใช้ ARB (หากมั่นใจว่าไม่ได้แพ้ ARB ร่วมด้วย) หรือพิจารณา Hydralazine + Isosorbide dinitrate (H-ISDN)');
+            if (allergies.includes('acei') || allergies.includes('enalapril') || hasAngioedema) {
+                alertsHTML += createAlertBox('ACE inhibitors และ ARNI', 'ห้ามใช้ (Contraindication)', 'ประวัติแพ้ยากลุ่ม ACEi เสี่ยงต่อการเกิด Cross-reactivity กับ ARNI', 'แนะนำพิจารณาใช้ ARB หรือ H-ISDN');
                 contraindicatedGroups.push('ACEi', 'ARNI');
             }
-            
-            // 2. ARB Allergy
-            if (allergies.includes('arb') || allergies.includes('losartan') || allergies.includes('valsartan') || allergies.includes('candesartan')) {
-                alertsHTML += createAlertBox('ARBs (Angiotensin II Receptor Blockers) และ ARNI', 'ห้ามใช้ (Contraindication)', 'ผู้ป่วยมีประวัติแพ้ยากลุ่ม ARB โดยตรง ยา ARNI มีส่วนประกอบของ Valsartan จึงห้ามใช้เช่นกัน', 'แนะนำพิจารณาใช้ ACEi (หากไม่เคยมีประวัติแพ้ ACEi) หรือ H-ISDN');
+            if (allergies.includes('arb') || allergies.includes('losartan') || allergies.includes('valsartan')) {
+                alertsHTML += createAlertBox('ARBs และ ARNI', 'ห้ามใช้ (Contraindication)', 'ยา ARNI มีส่วนประกอบของ Valsartan จึงห้ามใช้เช่นกัน', 'แนะนำพิจารณาใช้ ACEi (หากไม่เคยแพ้) หรือ H-ISDN');
                 contraindicatedGroups.push('ARB', 'ARNI');
             }
-
-            // 3. Sulfa Allergy (Loop Diuretics warning)
-            if (allergies.includes('sulfa') || allergies.includes('ซัลฟา') || allergies.includes('sulfonamide')) {
-                alertsHTML += createAlertBox('Loop Diuretics (เช่น Furosemide, Torsemide)', 'ควรระวัง (Precaution / Warning)', 'Furosemide มีโครงสร้างเป็น sulfonamide derivative ทางทฤษฎีอาจเกิดการแพ้ข้ามกลุ่มกับยาปฏิชีวนะกลุ่ม Sulfa ได้ (แม้โอกาสเกิดในคลินิกจะต่ำกว่า 1%)', 'หากประวัติเดิมแพ้รุนแรงมาก (Anaphylaxis) ควรหลีกเลี่ยง และพิจารณาใช้ Ethacrynic acid (Non-sulfonamide loop diuretic) แทน');
-            }
-
-            // 4. Beta-blockers
-            if (allergies.includes('beta blocker') || allergies.includes('beta-blocker') || allergies.includes('carvedilol') || allergies.includes('bisoprolol') || allergies.includes('metoprolol')) {
-                alertsHTML += createAlertBox('Beta-blockers ทุกชนิด', 'ห้ามใช้ (Contraindication)', 'มีประวัติแพ้ยากลุ่ม Beta-blockers โดยตรง', 'หากผู้ป่วยมี LVEF ≤ 40%, รอดชีวิตด้วย Sinus rhythm และ HR ≥ 70 bpm ให้พิจารณาใช้ Ivabradine เพื่อควบคุมอัตราการเต้นของหัวใจแทน');
+            if (allergies.includes('beta blocker') || allergies.includes('beta-blocker') || allergies.includes('carvedilol') || allergies.includes('bisoprolol')) {
+                alertsHTML += createAlertBox('Beta-blockers', 'ห้ามใช้ (Contraindication)', 'มีประวัติแพ้ยากลุ่ม Beta-blockers', 'พิจารณาใช้ Ivabradine ทดแทนหาก HR ≥ 70 bpm');
                 contraindicatedGroups.push('Beta-blocker');
             }
-
-            // 5. MRA (Spironolactone)
-            if (allergies.includes('spironolactone') || allergies.includes('mra') || allergies.includes('aldactone')) {
-                alertsHTML += createAlertBox('Spironolactone (MRA)', 'ห้ามใช้ (Contraindication)', 'มีประวัติแพ้ Spironolactone', 'หากจำเป็นต้องใช้ MRA เพื่อคุม Heart failure อาจพิจารณา Eplerenone (พิจารณา Cross-reactivity อย่างระมัดระวัง) หรือปรึกษาแพทย์ผู้เชี่ยวชาญด้านภูมิแพ้');
+            if (allergies.includes('spironolactone') || allergies.includes('mra')) {
+                alertsHTML += createAlertBox('Spironolactone (MRA)', 'ห้ามใช้ (Contraindication)', 'มีประวัติแพ้ Spironolactone', 'ปรึกษาแพทย์เฉพาะทาง');
                 contraindicatedGroups.push('MRA');
             }
-
-            // Lab based contraindications
             if (potassium >= 5.0) {
-                alertsHTML += createAlertBox('MRA (Spironolactone/Eplerenone)', 'เลื่อนการเริ่มยา (Hold/Delay)', `Serum Potassium ปัจจุบันสูง (${potassium} mEq/L)`, 'เสี่ยงต่อ Severe Hyperkalemia แนะนำให้ปรับลด Potassium ก่อนพิจารณาเริ่มยา');
+                alertsHTML += createAlertBox('MRA (Spironolactone)', 'เลื่อนการเริ่มยา (Hold)', `Serum Potassium ปัจจุบันสูง (${potassium} mEq/L)`, 'ปรับลด Potassium ก่อนเริ่มยา');
                 contraindicatedGroups.push('MRA_Lab');
             }
             if (egfr < 20) {
-                alertsHTML += createAlertBox('SGLT2 inhibitors', 'ไม่ได้ประโยชน์เต็มที่ (Not Initiated)', `eGFR ปัจจุบันต่ำกว่าเกณฑ์ (${egfr} mL/min)`, 'แนวทางไม่แนะนำให้เริ่ม SGLT2i หาก eGFR < 20 mL/min/1.73m2 (Dapagliflozin/Empagliflozin)');
+                alertsHTML += createAlertBox('SGLT2 inhibitors', 'ระวัง/ไม่ได้ประโยชน์', `eGFR ต่ำ (${egfr} mL/min)`, 'ไม่แนะนำให้เริ่มใหม่');
             }
 
             if (alertsHTML === '') {
                 alertsHTML = `<div class="p-3 bg-emerald-50 text-emerald-700 rounded-lg border border-emerald-200 flex items-center gap-2">
                     <i class="fa-solid fa-circle-check text-emerald-500 text-lg"></i>
-                    <span>ไม่พบข้อห้ามใช้ (Contraindications) ร้ายแรงจากประวัติแพ้ยาและผลตรวจทางห้องปฏิบัติการ</span>
+                    <span>ไม่พบข้อห้ามใช้ร้ายแรงจากประวัติแพ้ยาและผลแล็บ</span>
                 </div>`;
             }
             document.getElementById('output-alerts').innerHTML = alertsHTML;
-
 
             // ==========================================
             // MODULE 1: Drug Recommendations (Filtered)
             // ==========================================
             let recHTML = '<div class="grid grid-cols-1 md:grid-cols-2 gap-3">';
+            if (!contraindicatedGroups.includes('ARNI') && lvef <= 40) recHTML += createDrugCard('1. ARNI', 'Class I', 'Sacubitril/Valsartan แนะนำเป็น First-line', 'bg-blue-50', 'border-blue-200', 'text-blue-800');
+            else if (!contraindicatedGroups.includes('ACEi')) recHTML += createDrugCard('1. ACEi', 'Class I', 'Enalapril', 'bg-slate-50', 'border-slate-200', 'text-slate-800');
+            else if (!contraindicatedGroups.includes('ARB')) recHTML += createDrugCard('1. ARB', 'Class I', 'Losartan / Valsartan', 'bg-slate-50', 'border-slate-200', 'text-slate-800');
+
+            if (!contraindicatedGroups.includes('Beta-blocker')) recHTML += createDrugCard('2. Beta-blockers', 'Class I', 'Bisoprolol / Carvedilol', 'bg-blue-50', 'border-blue-200', 'text-blue-800');
+            else if (hr >= 70) recHTML += createDrugCard('2. Ivabradine', 'Class IIa', 'ใช้แทน Beta-blocker ที่แพ้', 'bg-amber-50', 'border-amber-200', 'text-amber-800');
             
-            // RAS Inhibitor Logic
-            if (!contraindicatedGroups.includes('ARNI') && lvef <= 40) {
-                recHTML += createDrugCard('1. ARNI (Sacubitril/Valsartan)', 'Class I (Level B)', 'แนะนำเป็นตัวเลือกแรก (First-line) แทนที่ ACEi/ARB เพื่อลดอัตราการเสียชีวิต', 'bg-blue-50', 'border-blue-200', 'text-blue-800');
-            } else if (!contraindicatedGroups.includes('ACEi')) {
-                recHTML += createDrugCard('1. ACE inhibitor (e.g. Enalapril)', 'Class I (Level A)', 'ทางเลือกเมื่อไม่สามารถใช้ ARNI ได้', 'bg-slate-50', 'border-slate-200', 'text-slate-800');
-            } else if (!contraindicatedGroups.includes('ARB')) {
-                recHTML += createDrugCard('1. ARB (e.g. Losartan, Valsartan)', 'Class I (Level A)', 'ทางเลือกเมื่อผู้ป่วยทนต่อ ACEi/ARNI ไม่ได้ หรือมีประวัติแพ้ ACEi', 'bg-slate-50', 'border-slate-200', 'text-slate-800');
-            } else {
-                recHTML += createDrugCard('1. H-ISDN (Hydralazine + Isosorbide)', 'Class IIa', 'เนื่องจากผู้ป่วยมีข้อห้ามใช้ ACEi, ARB และ ARNI', 'bg-amber-50', 'border-amber-200', 'text-amber-800');
-            }
-
-            // Beta Blocker Logic
-            if (!contraindicatedGroups.includes('Beta-blocker')) {
-                recHTML += createDrugCard('2. Beta-blockers', 'Class I (Level A)', 'Carvedilol, Bisoprolol, หรือ Metoprolol succinate (เริ่มยาเมื่อ Euvolemic)', 'bg-blue-50', 'border-blue-200', 'text-blue-800');
-            } else {
-                if (hr >= 70) {
-                    recHTML += createDrugCard('2. Ivabradine', 'Class IIa', 'ทดแทน Beta-blocker ที่ผู้ป่วยแพ้ เนื่องจาก HR ปัจจุบัน ≥ 70 bpm (ต้องเป็น Sinus Rhythm)', 'bg-amber-50', 'border-amber-200', 'text-amber-800');
-                } else {
-                    recHTML += createDrugCard('2. Beta-blockers', 'ห้ามใช้ (Contraindicated)', 'งดเว้นตามประวัติแพ้ยาที่ระบุ', 'bg-rose-50', 'border-rose-200', 'text-rose-800');
-                }
-            }
-
-            // MRA Logic
-            if (!contraindicatedGroups.includes('MRA') && !contraindicatedGroups.includes('MRA_Lab')) {
-                recHTML += createDrugCard('3. MRA (Spironolactone)', 'Class I (Level A)', 'แนะนำให้เริ่มยา (ตรวจเช็ค K+ และ eGFR ตามรอบ)', 'bg-blue-50', 'border-blue-200', 'text-blue-800');
-            } else {
-                 recHTML += createDrugCard('3. MRA (Spironolactone)', 'เลื่อนหรือห้ามใช้', 'ติดข้อห้ามใช้จากประวัติแพ้ยา หรือค่า Lab K+ สูง', 'bg-rose-50', 'border-rose-200', 'text-rose-800');
-            }
-
-            // SGLT2i Logic
-            if (egfr >= 20) {
-                recHTML += createDrugCard('4. SGLT2 inhibitors', 'Class I (Level A)', 'Dapagliflozin หรือ Empagliflozin 10 mg OD', 'bg-blue-50', 'border-blue-200', 'text-blue-800');
-            } else {
-                recHTML += createDrugCard('4. SGLT2 inhibitors', 'ข้อควรระวัง', 'eGFR ต่ำเกินไป ไม่แนะนำให้เริ่มยาใหม่', 'bg-slate-50', 'border-slate-200', 'text-slate-800');
-            }
-
-            // Diuretics
-            if (congestion === 'Yes') {
-                recHTML += `<div class="col-span-full mt-2 p-2.5 bg-sky-50 border border-sky-200 rounded-lg flex items-start gap-2 text-sky-800">
-                    <i class="fa-solid fa-droplet mt-0.5"></i>
-                    <div>
-                        <strong>Diuretics (ยาขับปัสสาวะ):</strong> พบภาวะคั่งน้ำ (Congestion) แนะนำพิจารณาปรับเพิ่ม Loop Diuretics (เช่น Furosemide) จนกว่าผู้ป่วยจะเข้าสู่ภาวะ Euvolemic
-                    </div>
-                </div>`;
-            }
-
+            if (!contraindicatedGroups.includes('MRA') && !contraindicatedGroups.includes('MRA_Lab')) recHTML += createDrugCard('3. MRA', 'Class I', 'Spironolactone', 'bg-blue-50', 'border-blue-200', 'text-blue-800');
+            if (egfr >= 20) recHTML += createDrugCard('4. SGLT2i', 'Class I', 'Dapagliflozin / Empagliflozin', 'bg-blue-50', 'border-blue-200', 'text-blue-800');
             recHTML += '</div>';
             document.getElementById('output-drug-rec').innerHTML = recHTML;
 
             // ==========================================
-            // MODULE 2 & 4 : Guidance & Monitoring (Simplified Mockup)
+            // MODULE 2: Detailed Dose & Regimen Table
             // ==========================================
-            document.getElementById('output-dose-guidance').innerHTML = `
-                <ul class="list-disc pl-4 space-y-1.5 text-slate-700">
-                    <li><strong>Start Low, Go Slow:</strong> แนะนำให้เริ่มปรับขนาดยา (Titrate) ทีละ 1-2 ชนิด โดยปรับขึ้นทุกๆ 2-4 สัปดาห์ เพื่อให้ถึง Target dose ตาม GDMT guidelines</li>
-                    <li><strong>Blood Pressure:</strong> SBP ปัจจุบัน ${sbp} mmHg (ปลอดภัยสำหรับการเริ่ม/ปรับยา RASi หรือ Beta-blocker)</li>
-                </ul>
+            let doseHTML = `
+                <div class="mb-3 p-2 bg-amber-50 border border-amber-200 rounded text-amber-800 flex items-start gap-2">
+                    <i class="fa-solid fa-circle-info mt-0.5"></i>
+                    <span><strong>หลักการ Titration:</strong> เริ่มยาจากขนาดยาต่ำ (Start Low) และปรับเพิ่มขนาดทุก 2-4 สัปดาห์ (Go Slow) เพื่อให้ถึง Target Dose หรือขนาดสูงสุดที่ผู้ป่วยทนได้ (Maximal Tolerated Dose)</span>
+                </div>
+                <div class="overflow-x-auto rounded-lg border border-slate-200">
+                    <table class="w-full text-left border-collapse text-[11.5px]">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                                <th class="p-2.5 font-bold">กลุ่มยา (Medication)</th>
+                                <th class="p-2.5 font-bold">Starting Dose (เริ่มต้น)</th>
+                                <th class="p-2.5 font-bold text-teal-700">Target Dose (เป้าหมาย)</th>
+                                <th class="p-2.5 font-bold">ข้อควรระวังเพิ่มเติม</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
             `;
 
+            if (!contraindicatedGroups.includes('ARNI') && lvef <= 40) {
+                doseHTML += `
+                    <tr>
+                        <td class="p-2.5 font-semibold text-slate-800">ARNI<br><span class="text-[10px] text-slate-500 font-normal">Sacubitril/Valsartan</span></td>
+                        <td class="p-2.5">24/26 mg BID<br><span class="text-[9px] text-slate-400">หรือ 49/51 mg BID หากเคยได้ ACEi/ARB สูงมาก่อน</span></td>
+                        <td class="p-2.5 font-bold text-teal-700 bg-teal-50/30">97/103 mg BID</td>
+                        <td class="p-2.5 text-slate-600">ต้องหยุดยา ACEi เดิมอย่างน้อย 36 ชั่วโมงก่อนเริ่มยา</td>
+                    </tr>`;
+            } else if (!contraindicatedGroups.includes('ACEi')) {
+                doseHTML += `
+                    <tr>
+                        <td class="p-2.5 font-semibold text-slate-800">ACEi<br><span class="text-[10px] text-slate-500 font-normal">Enalapril</span></td>
+                        <td class="p-2.5">2.5 mg BID</td>
+                        <td class="p-2.5 font-bold text-teal-700 bg-teal-50/30">10 - 20 mg BID</td>
+                        <td class="p-2.5 text-slate-600">ระวังอาการไอแห้ง (Dry cough) และค่า K+ สูง</td>
+                    </tr>`;
+            } else if (!contraindicatedGroups.includes('ARB')) {
+                doseHTML += `
+                    <tr>
+                        <td class="p-2.5 font-semibold text-slate-800">ARB<br><span class="text-[10px] text-slate-500 font-normal">Losartan / Valsartan</span></td>
+                        <td class="p-2.5">Losartan 50 mg OD<br>Valsartan 40 mg BID</td>
+                        <td class="p-2.5 font-bold text-teal-700 bg-teal-50/30">Losartan 150 mg OD<br>Valsartan 160 mg BID</td>
+                        <td class="p-2.5 text-slate-600">ระวังความดันโลหิตต่ำ และค่า K+ สูง</td>
+                    </tr>`;
+            }
+
+            if (!contraindicatedGroups.includes('Beta-blocker')) {
+                doseHTML += `
+                    <tr>
+                        <td class="p-2.5 font-semibold text-slate-800">Beta-blocker<br><span class="text-[10px] text-slate-500 font-normal">Bisoprolol / Carvedilol</span></td>
+                        <td class="p-2.5">Biso 1.25 mg OD<br>Carv 3.125 mg BID</td>
+                        <td class="p-2.5 font-bold text-teal-700 bg-teal-50/30">Biso 10 mg OD<br>Carv 25 mg BID</td>
+                        <td class="p-2.5 text-slate-600">เริ่มยาได้เมื่อผู้ป่วยไม่มีภาวะน้ำคั่งรุนแรง (Euvolemic)</td>
+                    </tr>`;
+            }
+
+            if (!contraindicatedGroups.includes('MRA') && !contraindicatedGroups.includes('MRA_Lab')) {
+                doseHTML += `
+                    <tr>
+                        <td class="p-2.5 font-semibold text-slate-800">MRA<br><span class="text-[10px] text-slate-500 font-normal">Spironolactone</span></td>
+                        <td class="p-2.5">25 mg OD</td>
+                        <td class="p-2.5 font-bold text-teal-700 bg-teal-50/30">50 mg OD</td>
+                        <td class="p-2.5 text-slate-600">เจาะ K+ และ Cr ซ้ำภายใน 1 สัปดาห์หลังเริ่ม/ปรับยา</td>
+                    </tr>`;
+            }
+
+            if (egfr >= 20) {
+                doseHTML += `
+                    <tr>
+                        <td class="p-2.5 font-semibold text-slate-800">SGLT2i<br><span class="text-[10px] text-slate-500 font-normal">Dapagliflozin / Empagliflozin</span></td>
+                        <td class="p-2.5">10 mg OD</td>
+                        <td class="p-2.5 font-bold text-teal-700 bg-teal-50/30">10 mg OD</td>
+                        <td class="p-2.5 text-slate-600">ไม่จำเป็นต้อง Titrate ยา, ระวังเรื่องสุขอนามัยติดเชื้อทางเดินปัสสาวะ</td>
+                    </tr>`;
+            }
+
+            if (congestion === 'Yes') {
+                doseHTML += `
+                    <tr class="bg-sky-50/50">
+                        <td class="p-2.5 font-semibold text-sky-800">Loop Diuretic<br><span class="text-[10px] text-sky-600 font-normal">Furosemide</span></td>
+                        <td class="p-2.5 text-sky-800">20 - 40 mg OD / BID</td>
+                        <td class="p-2.5 font-bold text-sky-700 bg-sky-100/50">Titrate to Euvolemia</td>
+                        <td class="p-2.5 text-sky-800">ผู้ป่วยมีภาวะ Congestion ให้ปรับยาตามน้ำหนักตัว (Dry weight)</td>
+                    </tr>`;
+            }
+
+            doseHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            document.getElementById('output-dose-guidance').innerHTML = doseHTML;
+
+            // ==========================================
+            // MODULE 4: Monitoring
+            // ==========================================
             document.getElementById('output-monitoring').innerHTML = `
-                <div class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded">
-                    <i class="fa-solid fa-vial text-teal-600"></i>
-                    <span><strong>นัดตรวจเลือด:</strong> เจาะดูค่า BUN, Cr, eGFR และ Potassium ภายใน 1-2 สัปดาห์ หลังปรับเปลี่ยนยาที่เกี่ยวกับไต (RASi, MRA, SGLT2i)</span>
+                <div class="flex items-center gap-2 p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-700">
+                    <i class="fa-solid fa-vial text-teal-600 text-lg"></i>
+                    <div>
+                        <strong>นัดตรวจเลือด:</strong> เจาะดูค่า BUN, Cr, eGFR และ Serum Potassium ภายใน 1-2 สัปดาห์ หลังการเริ่มยาหรือปรับลดยาที่เกี่ยวข้องกับไต (RASi, MRA, SGLT2i)
+                    </div>
                 </div>
             `;
         }
 
-        // Helper function for UI elements
+        // Helper functions
         function createAlertBox(drug, status, reason, recommendation) {
-            return `
-            <div class="bg-white border border-slate-200 rounded-lg p-3 mb-2 shadow-sm relative overflow-hidden">
+            return `<div class="bg-white border border-slate-200 rounded-lg p-3 mb-2 shadow-sm relative overflow-hidden">
                 <div class="absolute left-0 top-0 bottom-0 w-1 ${status.includes('ห้ามใช้') ? 'bg-rose-500' : 'bg-amber-500'}"></div>
                 <div class="ml-2">
                     <div class="flex items-center justify-between mb-1">
@@ -596,8 +494,7 @@
         }
 
         function createDrugCard(title, cls, desc, bg, border, text) {
-            return `
-            <div class="p-2.5 rounded-lg border ${bg} ${border} ${text}">
+            return `<div class="p-2.5 rounded-lg border ${bg} ${border} ${text}">
                 <div class="flex justify-between items-start mb-1">
                     <strong class="text-[11px]">${title}</strong>
                     <span class="text-[9px] px-1.5 py-0.5 bg-white/60 rounded border border-white/50">${cls}</span>
