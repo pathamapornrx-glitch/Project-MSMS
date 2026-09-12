@@ -231,7 +231,30 @@
                                 <span>โรคเก๊าท์ (Gout)</span>
                             </label>
                         </div>
-                    </div>
+                    </div> <!-- เริ่มส่วนที่เพิ่มใหม่: ประวัติการแพ้ยา -->
+                        <div class="mt-3">
+                            <label class="block text-slate-600 font-semibold mb-1">ประวัติการแพ้ยา (Allergies):</label>
+                            <div class="grid grid-cols-1 gap-2 text-[11px]">
+                                <label class="flex items-center gap-1.5 p-1.5 bg-rose-50 border border-rose-200 rounded-lg cursor-pointer hover:bg-rose-100 transition">
+                                    <input type="checkbox" id="check-allergy-pcn" class="rounded text-rose-600 focus:ring-rose-500 w-4 h-4" onchange="togglePcnAllergyInfo()">
+                                    <span class="text-rose-800 font-medium">แพ้ยากลุ่ม Penicillin (Penicillin Allergy)</span>
+                                </label>
+                            </div>
+                            
+                            <!-- กล่องข้อมูลการแพ้ข้ามกลุ่ม (ซ่อนไว้เริ่มต้น จะแสดงเมื่อติ๊กแพ้ยา) -->
+                            <div id="pcn-allergy-info" class="hidden mt-2 p-2.5 bg-white border border-rose-200 border-l-4 border-l-rose-500 rounded-lg shadow-sm">
+                                <h4 class="font-bold text-rose-700 text-[11px] mb-1 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-exclamation"></i> ข้อมูลการแพ้ข้ามกลุ่ม (Cross-reactivity)
+                                </h4>
+                                <ul class="text-[10px] text-slate-600 space-y-1 list-disc pl-4">
+                                    <li><strong class="text-slate-700">Cephalosporins:</strong> โอกาสแพ้ข้ามกลุ่ม <span class="text-rose-600 font-semibold">~1-3%</span> (โดยเฉพาะรุ่น 1, 2 หรือตัวที่มี Side chain คล้ายกัน) หากประวัติเดิมแพ้รุนแรง (Anaphylaxis) ควรหลีกเลี่ยง</li>
+                                    <li><strong class="text-slate-700">Carbapenems:</strong> โอกาสแพ้ข้ามกลุ่มต่ำมาก (<span class="text-emerald-600 font-semibold">< 1%</span>) สามารถใช้ได้อย่างระมัดระวัง</li>
+                                    <li><strong class="text-slate-700">Monobactams (Aztreonam):</strong> <span class="text-emerald-600 font-semibold">ไม่มีการแพ้ข้ามกลุ่ม</span> (เว้นแต่แพ้ Ceftazidime) ปลอดภัยในผู้ที่แพ้ Penicillin</li>
+                                </ul>
+                                <p class="text-[9px] text-slate-400 mt-1.5 italic">*อ้างอิง: AAAAI Drug Allergy Guidelines & Pharmacotherapy</p>
+                            </div>
+                        </div>
+                        <!-- จบส่วนที่เพิ่มใหม่ -->
 
                     <div class="space-y-2">
                         <label class="block text-slate-600 font-semibold">รายการยาเดิมของผู้ป่วย:</label>
@@ -985,7 +1008,48 @@
                     }
                 }
             }
+        } // ฟังก์ชันสำหรับเปิด/ปิดกล่องข้อมูลการแพ้ยา Penicillin
+        function togglePcnAllergyInfo() {
+            const isAllergic = document.getElementById('check-allergy-pcn').checked;
+            const infoBox = document.getElementById('pcn-allergy-info');
+            
+            if (isAllergic) {
+                infoBox.classList.remove('hidden');
+                infoBox.classList.add('block');
+            } else {
+                infoBox.classList.add('hidden');
+                infoBox.classList.remove('block');
+            }
         }
+
+        // --- ส่วนเสริม: ตัวอย่างการนำข้อมูลไปแสดงในช่อง 3. Contraindication Alerts (ระบบของคุณ) ---
+        // (ฟังก์ชันนี้เป็นโครงร่าง ให้คุณนำไปปรับใช้รวมกับฟังก์ชัน runCDSSEngine() เดิมของคุณ)
+        function updateAllergyAlertInCDSS() {
+            const isPcnAllergic = document.getElementById('check-allergy-pcn').checked;
+            const alertsContainer = document.getElementById('output-alerts');
+            
+            // เก็บ Alert เดิมไว้ และเพิ่ม Alert เรื่องยาชา/ยาฆ่าเชื้อ
+            let alertHtml = ''; // ดึงจากโค้ดเก่าของคุณ
+            
+            if (isPcnAllergic) {
+                alertHtml += `
+                    <div class="p-2.5 bg-rose-50 border border-rose-200 rounded-lg flex items-start gap-2">
+                        <i class="fa-solid fa-triangle-exclamation text-rose-500 mt-0.5"></i>
+                        <div>
+                            <span class="font-bold text-rose-700 block">Penicillin Allergy Alert</span>
+                            <span class="text-slate-600 mt-0.5 block">หากผู้ป่วยมีการติดเชื้อร่วมด้วยและจำเป็นต้องใช้ยาปฏิชีวนะ ให้ระวังการใช้ยากลุ่ม <b>Cephalosporins</b> (Cross-reactivity 1-3%) แนะนำให้พิจารณาเลือกใช้ <b>Carbapenems</b> หรือ <b>Aztreonam</b> หากจำเป็น อ้างอิงตามระดับความรุนแรงของการแพ้เดิม</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // alertsContainer.innerHTML += alertHtml; 
+            // นำบรรทัดนี้ไปรวมใน logic การ render ผลลัพธ์ของคุณ
+        }
+        
+        // อย่าลืมเพิ่มการ reset ค่า checkbox ในฟังก์ชัน resetForm() ของคุณ
+        // document.getElementById('check-allergy-pcn').checked = false;
+        // togglePcnAllergyInfo();
     </script>
 </body>
 </html>
